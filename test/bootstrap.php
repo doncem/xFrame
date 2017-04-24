@@ -1,7 +1,6 @@
 <?php
 
-$root = __DIR__.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR;
-require($root.'lib/xframe/autoloader/Autoloader.php');
+$root = __DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR;
 
-$autoloader = new xframe\autoloader\Autoloader($root);
+$autoloader = new Xframe\Autoloader\Autoloader($root);
 $autoloader->register();

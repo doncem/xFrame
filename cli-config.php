@@ -1,23 +1,23 @@
 <?php
 
-/**
- * xFrame Bootloader for the Doctrine CLI application
- */
-use xframe\autoloader\Autoloader;
-use xframe\core\System;
+use Doctrine\ORM\Tools\Console\Helper\EntityManagerHelper;
+use Symfony\Component\Console\Helper\HelperSet;
+use Xframe\Autoloader\Autoloader;
+use Xframe\Core\System;
 
-$root = __DIR__.DIRECTORY_SEPARATOR;
-require_once($root.'lib/xframe/autoloader/Autoloader.php');
+$root = __DIR__ . DIRECTORY_SEPARATOR;
+
+require_once $root . 'lib/xframe/autoloader/Autoloader.php';
 
 //include addendum
-require_once $root."lib/addendum/annotations.php";
+require_once $root . 'lib/addendum/annotations.php';
 
 $autoloader = new Autoloader($root);
 $autoloader->register();
 
-$system = new System($root, "dev");
+$system = new System($root, 'dev');
 $system->boot();
 
-$helperSet = new \Symfony\Component\Console\Helper\HelperSet(array(
-    'em' => new \Doctrine\ORM\Tools\Console\Helper\EntityManagerHelper($system->em)
-));
+$helperSet = new HelperSet([
+    'em' => new EntityManagerHelper($system->em)
+]);

@@ -1,21 +1,18 @@
 <?php
 
 namespace demo\controller;
-use \xframe\request\Controller;
+
+use Xframe\Request\Controller;
 
 /**
- * Controller for the demo 
- *
- * @author Linus Norton <linusnorton@gmail.com>
+ * Controller for the demo.
  */
-class Index extends Controller {
-
+class Index extends Controller
+{
     /**
      * @Request("index")
      */
-    public function run() {
-
+    public function run()
+    {
     }
-
 }
-
