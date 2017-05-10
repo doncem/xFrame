@@ -45,7 +45,8 @@
         "twig/twig": "~v2.3"
     },
     "require-dev": {
-        "friendsofphp/php-cs-fixer": "dev-master"
+        "friendsofphp/php-cs-fixer": "dev-master",
+        "phpunit/phpunit": "dev-master"
     },
     "suggest": {
         "doctrine/orm": "For the use of EntityManager injected into application for you already"

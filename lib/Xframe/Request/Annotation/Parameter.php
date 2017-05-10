@@ -32,7 +32,8 @@ class Parameter
     public function __construct(string $name,
                                 Validator $validator = null,
                                 bool $required = false,
-                                $default = null) {
+                                $default = null)
+    {
         $this->name = $name;
         $this->validator = $validator;
         $this->default = $default;

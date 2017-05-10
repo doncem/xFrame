@@ -2,10 +2,12 @@
 
 namespace Xframe\Authorisation;
 
+use PHPUnit\Framework\TestCase;
+
 /**
  * Test class for Acl.
  */
-class AclTest extends \PHPUnit_Framework_TestCase
+class AclTest extends TestCase
 {
     /**
      * @var Acl

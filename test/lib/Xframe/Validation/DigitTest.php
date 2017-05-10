@@ -2,10 +2,12 @@
 
 namespace Xframe\Validation;
 
+use PHPUnit\Framework\TestCase;
+
 /**
  * Test class for Digit.
  */
-class DigitTest extends \PHPUnit_Framework_TestCase
+class DigitTest extends TestCase
 {
     public function testValidate()
     {

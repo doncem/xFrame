@@ -2,5 +2,5 @@
 
 $root = __DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR;
 
-$autoloader = new Xframe\Autoloader\Autoloader($root);
-$autoloader->register();
+$loader = require $root . 'vendor' . DIRECTORY_SEPARATOR . 'autoload.php';
+$loader->addPsr4('Xframe\\', $root . 'lib' . DIRECTORY_SEPARATOR . 'Xframe');

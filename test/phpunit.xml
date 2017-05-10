@@ -1,4 +1,4 @@
-<phpunit 
+<phpunit
     bootstrap="./bootstrap.php"
     colors="true"
     backupGlobals="false"
@@ -10,7 +10,7 @@
             <directory>src</directory>
         </testsuite>
         <testsuite name="Library Testing">
-            <directory>library</directory>
+            <directory>lib</directory>
         </testsuite>
     </testsuites>
 

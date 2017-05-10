@@ -8,7 +8,7 @@
     <property name="testPath" value="" />
 
     <target name="test" description="Unit tests">
-        <exec passthru="true" command="phpunit -d session.name=${config} -c ./test/phpunit.xml ${testPath}"/>
+        <exec passthru="true" command="./vendor/bin/phpunit -d session.name=${config} -c ./test/phpunit.xml ${testPath}"/>
     </target>
 
     <target name="coverage" description="Unit tests and the coverage report">
@@ -17,7 +17,7 @@
 
         <exec outputProperty="result"
               passthru="true"
-              command="phpunit -d session.name=${config} -c ./test/phpunit.xml --log-junit ./report/logfile.xml --coverage-html ./report/coverage-html/ $[testPath}"/>
+              command="./vendor/bin/phpunit -d session.name=${config} -c ./test/phpunit.xml --log-junit ./report/logfile.xml --coverage-html ./report/coverage-html/ $[testPath}"/>
     </target>
 
     <target name="lint" hidden="true">
