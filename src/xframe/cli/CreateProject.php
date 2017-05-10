@@ -10,8 +10,8 @@ use Xframe\Request\Controller;
 class CreateProject extends Controller
 {
     /**
-     * @Request("create-project")
-     * @Parameter(name="path");
+     * @Request create-project
+     * @Parameter -> ["path"]
      */
     public function run()
     {

@@ -2,13 +2,23 @@
 
 namespace Xframe\Request\Annotation;
 
-use Annotation;
-
 /**
  * @package request/annotation
  */
-class CustomParam extends Annotation
+class CustomParam
 {
+    /**
+     * @var string
+     */
     public $name;
+
+    /**
+     * @var mixed
+     */
     public $value;
+
+    public function __construct(string $name, $value) {
+        $this->name = $name;
+        $this->value = $value;
+    }
 }

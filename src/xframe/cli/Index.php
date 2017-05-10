@@ -10,7 +10,7 @@ use Xframe\Request\Controller;
 class Index extends Controller
 {
     /**
-     * @Request("cli-index")
+     * @Request cli-index
      */
     public function run()
     {

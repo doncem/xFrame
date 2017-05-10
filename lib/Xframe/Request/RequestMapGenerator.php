@@ -2,8 +2,11 @@
 
 namespace Xframe\Request;
 
-use Addendum;
 use Exception;
+use Minime\Annotations\AnnotationsBag;
+use Minime\Annotations\Cache\FileCache;
+use Minime\Annotations\Parser;
+use Minime\Annotations\Reader;
 use ReflectionAnnotatedMethod;
 use ReflectionClass;
 use ReflectionMethod;
@@ -27,6 +30,11 @@ class RequestMapGenerator
     private $dic;
 
     /**
+     * @var Reader
+     */
+    private $reader;
+
+    /**
      * @param DependencyInjectionContainer $dic
      */
     public function __construct(DependencyInjectionContainer $dic)
@@ -38,26 +46,26 @@ class RequestMapGenerator
             $dic->root . 'lib' . DIRECTORY_SEPARATOR
         ];
 
-        //include addendum
-        require_once 'addendum/annotations.php';
-
-        Addendum::ignore('Table');
-        Addendum::ignore('Entity');
-        Addendum::ignore('MappedSuperclass');
-        Addendum::setClassnames([
-            'Request' => 'Xframe\\Request\\Annotation\\Request',
-            'View' => 'Xframe\\Request\\Annotation\\View',
-            'Prefilter' => 'Xframe\\Request\\Annotation\\Prefilter',
-            'CacheLength' => 'Xframe\\Request\\Annotation\\CacheLength',
-            'CustomParam' => 'Xframe\\Request\\Annotation\\CustomParam',
-            'Parameter' => 'Xframe\\Request\\Annotation\\Parameter',
-            'Template' => 'Xframe\\Request\\Annotation\\Template'
-        ]);
-
         // make sure we can write to the tmp directory or use the sys tmp
         if (!\is_writable($this->dic->tmp)) {
             $this->dic->tmp = \sys_get_temp_dir() . DIRECTORY_SEPARATOR;
         }
+    }
+
+    /**
+     * @return CachedReader
+     */
+    private function getAnnotationReader()
+    {
+        if (null === $this->reader) {
+            $this->reader = new Reader(
+                new Parser(),
+                new FileCache($this->dic->tmp)
+            );
+            $this->reader->getParser()->registerConcreteNamespaceLookup(['Xframe\\Request\\Annotation\\']);
+        }
+
+        return $this->reader;
     }
 
     /**
@@ -93,7 +101,7 @@ class RequestMapGenerator
     /**
      * This method uses reflection to see if the given class uses annotations
      * to define a request handler. It returns a string that contains the
-     * serialized Resource.
+     * serialised Resource.
      *
      * @param string $class
      *
@@ -107,14 +115,16 @@ class RequestMapGenerator
             return;
         }
 
-        $methods = $reflection->getMethods(ReflectionMethod::IS_PUBLIC);
+        if ($reflection->isSubclassOf('Xframe\\Request\\Controller')) {
+            $annotationReader = $this->getAnnotationReader();
+            $methods = $reflection->getMethods(ReflectionMethod::IS_PUBLIC);
 
-        foreach ($methods as $method) {
-            $annotation = new ReflectionAnnotatedMethod($method->class, $method->name);
-
-            //if it is a request handler
-            if ($annotation->hasAnnotation('Request')) {
-                $this->processRequest($annotation);
+            /* @var $method ReflectionMethod */
+            foreach ($methods as $method) {
+                $methodAnnotations = $annotationReader->getMethodAnnotations($reflection->name, $method->name);
+                if (null !== $methodAnnotations && $methodAnnotations->has('Request')) {
+                    $this->processRequest($method, $methodAnnotations);
+                }
             }
         }
     }
@@ -122,26 +132,44 @@ class RequestMapGenerator
     /**
      * Create the cache file for the request.
      *
-     * @param ReflectionAnnotatedMethod $annotation
+     * @param ReflectionMethod $method
+     * @param array            $annotations
      */
-    private function processRequest(ReflectionAnnotatedMethod $annotation)
+    private function processRequest(ReflectionMethod $method, AnnotationsBag $annotations)
     {
-        $request = $annotation->getAnnotation('Request')->value;
-        $mappedParams = $annotation->getAllAnnotations('Parameter');
-        $cacheLength = $this->getOrReturn($annotation, 'CacheLength', false);
-        $view = $this->getOrReturn($annotation, 'View', $this->dic->registry->get('DEFAULT_VIEW'));
-        $template = $this->getOrReturn($annotation, 'Template', $request);
+        $request = $annotations->get('Request');
+        $params = $annotations->get('Parameter', []);
 
-        $prefilters = [];
-
-        foreach ($annotation->getAllAnnotations('Prefilter') as $prefilter) {
-            $prefilters[] = $prefilter->value;
+        if (!\is_array($params)) {
+            $params = [$params];
         }
 
+        $cacheLength = $annotations->get('CacheLength', false);
+        $view = $annotations->get('View', $this->dic->registry->get('DEFAULT_VIEW'));
+        $template = $annotations->get('Template', $request);
+
+        $prefilters = $annotations->get('Prefilter', []);
+
+        if (!\is_array($prefilters)) {
+            $prefilters = [$prefilters];
+        }
+
+        foreach ($prefilters as $key => $prefilter) {
+            if (!\class_exists($prefilter)) {
+                unset($key);
+            }
+        }
+
+        $customParameters = $annotations->get('CustomParam', []);
         $customParams = [];
 
-        foreach ($annotation->getAllAnnotations('CustomParam') as $custom) {
-            $customParams[$custom->name] = $custom->value;
+        if (!\is_array($customParameters)) {
+            $customParameters = [$customParameters];
+        }
+
+        /* @var $customParameter Annotation\CustomParam */
+        foreach ($customParameters as $customParameter) {
+            $customParams[$customParameter->name] = $customParameter->value;
         }
 
         $newLine = PHP_EOL . '    ';
@@ -152,15 +180,16 @@ class RequestMapGenerator
             $fileContents .= '$request->addParameters(' . \var_export($customParams, true) . ');' . PHP_EOL;
         }
 
-        $fileContents .= "return new {$annotation->class}({$newLine}";
+        $fileContents .= "return new {$method->class}({$newLine}";
         $fileContents .= "\$this->dic,{$newLine}";
         $fileContents .= "\$request,{$newLine}";
-        $fileContents .= \var_export($annotation->name, true) . ",{$newLine}";
+        $fileContents .= \var_export($method->name, true) . ",{$newLine}";
         $fileContents .= "new {$view}(\$this->dic->registry, \$this->dic->root, \$this->dic->tmp, ";
         $fileContents .= \var_export($template, true) . ", \$request->debug),{$newLine}";
         $fileContents .= "[{$newLine}";
 
-        foreach ($mappedParams as $param) {
+        /* @var $param Annotation\Parameter */
+        foreach ($params as $param) {
             $fileContents .= 'new Xframe\Request\Parameter(\'' . $param->name . '\',' . $newLine;
             $fileContents .= $param->validator ? 'new ' . $param->validator . ',' . $newLine : "null,{$newLine}";
             $fileContents .= \var_export($param->required, true) . ",{$newLine}";

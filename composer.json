@@ -12,12 +12,12 @@
     "authors": [
         {
             "name": "Linus Norton",
-            "homepage": "http://www.linusnorton.co.uk/",
+            "homepage": "http://www.linusnorton.co.uk",
             "role": "Developer"
         },
         {
             "name": "Jason Paige",
-            "homepage": "http://www.jasonpaige.co.uk/",
+            "homepage": "http://www.jasonpaige.co.uk",
             "role": "Developer"
         },
         {
@@ -28,9 +28,20 @@
         }
     ],
     "minimum-stability": "stable",
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/doncem/annotations"
+        }
+    ],
+    "extra": {
+        "branch-alias": {
+            "dev-type-upgrade": "3.x.x-dev"
+        }
+    },
     "require": {
         "php": "^7.0",
-        "doctrine/annotations": "~v1.4",
+        "doncem/annotations": "3.x.x-dev",
         "twig/twig": "~v2.3"
     },
     "require-dev": {
