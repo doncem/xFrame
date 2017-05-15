@@ -34,14 +34,9 @@
             "url": "https://github.com/doncem/annotations"
         }
     ],
-    "extra": {
-        "branch-alias": {
-            "dev-type-upgrade": "3.x.x-dev"
-        }
-    },
     "require": {
         "php": "^7.0",
-        "doncem/annotations": "3.x.x-dev",
+        "minime/annotations": "dev-type-upgrade as 3.0.x-dev",
         "twig/twig": "~v2.3"
     },
     "require-dev": {
@@ -53,12 +48,12 @@
     },
     "autoload": {
         "psr-4" : {
-            "Xframe\\" : "lib/"
+            "Xframe\\" : "lib/Xframe"
         }
     },
     "autoload-dev": {
         "psr-4" : {
-            "Xframe\\" : "test/lib/"
+            "Xframe\\" : "test/lib/Xframe"
         }
     },
     "bin": ["script/xframe", "script/xframe.php"]

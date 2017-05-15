@@ -1,7 +1,20 @@
+sudo: false
 language: php
+
 php:
-  - 5.3
-  - 5.4
+  - 7.0
+  - 7.1
+  - hhvm
+
 env:
   - CONFIG=dev
-script: phpunit --bootstrap=./test/bootstrap.php --coverage-text ./test/
+
+before_script:
+  - composer self-update
+  - composer install --prefer-source
+
+script: ./vendor/bin/phpunit --bootstrap=./test/bootstrap.php --coverage-text ./test/
+
+cache:
+  directories:
+    - $HOME/.composer/cache
