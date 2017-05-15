@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/doncem/xFrame.svg?branch=master)](https://travis-ci.org/doncem/xFrame)
+
 PHP xFrame
 ==========
 
