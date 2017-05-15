@@ -1,5 +1,5 @@
 {
-    "name": "doncem/xframe",
+    "name": "linusnorton/xframe",
     "type": "library",
     "description": "A lightweight annotation based MVC framework",
     "keywords": [
@@ -13,18 +13,18 @@
         {
             "name": "Linus Norton",
             "homepage": "http://www.linusnorton.co.uk",
-            "role": "Developer"
+            "role": "Owner"
         },
         {
             "name": "Jason Paige",
             "homepage": "http://www.jasonpaige.co.uk",
-            "role": "Developer"
+            "role": "Contributor"
         },
         {
             "name": "Donatas Martinkus",
             "email": "donatasmart@gmail.com",
             "homepage": "http://www.donatasmart.lt",
-            "role": "Developer"
+            "role": "Contributor"
         }
     ],
     "minimum-stability": "stable",
