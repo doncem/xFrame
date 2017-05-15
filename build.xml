@@ -1,54 +1,88 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<project default="build" basedir=".">
-    <if>
-        <isset property="config"/>
-        <else>
-            <property name="config" value="dev" />
-        </else>
-    </if>
-    <if>
-        <isset property="testPath"/>
-        <else>
-            <property name="testPath" value="" />
-        </else>
-    </if>
-    
-    <property name="basedir" value="." />
-    <property name="report" value="${basedir}/report/" />
+<project default="test" basedir=".">
+    <property name="config" value="dev" />
+    <property name="help" value="" />
+    <property name="standard-all" value="" />
+    <property name="standard-diff" value="" />
+    <property name="testPath" value="" />
 
-    <!-- remove the cache and log folders -->
-    <target name="clean">
-        <delete dir="${basedir}/log"/>
-        <delete dir="${basedir}/tmp"/>
-        <delete dir="${report}"/>
-    </target>
-    
-    <!-- create the cache and log folders, add configs if they don't exist -->
-    <target name="build" depends="clean">
-        <mkdir dir="${basedir}/log"/>
-        <chmod file="${basedir}/log" mode="0777" />
-
-        <mkdir dir="${basedir}/tmp"/>
-        <chmod file="${basedir}/tmp" mode="0777" />        
-        
-        <mkdir dir="${report}"/>        
-        <chmod file="${report}" mode="0777" />                       
-    </target>    
-
-    <!-- run the unit tests -->
-    <target name="test">        
-        <exec passthru="true" command="phpunit -d session.name=${config} -c ${basedir}/test/phpunit.xml ${testPath}"/>
+    <target name="test" description="Unit tests">
+        <exec passthru="true" command="./vendor/bin/phpunit -d session.name=${config} -c ./test/phpunit.xml ${testPath}"/>
     </target>
 
-    <!-- run the unit tests and generate the coverage report -->
-    <target name="coverage">
-        <delete dir="${report}" />
-        <mkdir dir="${report}" />
-        
+    <target name="coverage" description="Unit tests and the coverage report">
+        <delete dir="./report" />
+        <mkdir dir="./report" />
+
         <exec outputProperty="result"
               passthru="true"
-              command="phpunit -d session.name=${config} -c ${basedir}/test/phpunit.xml --log-junit ${report}/logfile.xml --coverage-html ${report}/coverage-html/ $[testPath}"/>
+              command="./vendor/bin/phpunit -d session.name=${config} -c ./test/phpunit.xml --log-junit ./report/logfile.xml --coverage-html ./report/coverage-html/ $[testPath}"/>
     </target>
-        
+
+    <target name="lint" hidden="true">
+        <echo msg="Checking PHP syntax" />
+        <phplint>
+            <fileset dir="lib">
+                <include name="**/*.php" />
+            </fileset>
+            <fileset dir="src">
+                <include name="**/*.php" />
+            </fileset>
+            <fileset dir=".">
+                <include name=".php_cs" />
+            </fileset>
+        </phplint>
+    </target>
+
+    <target name="standards" depends="lint" description="Checking your code stands up for coding requirements">
+        <echo msg="Checking coding standards" />
+        <if>
+            <and>
+                <equals arg1="${standard-all}" arg2="1" />
+                <equals arg1="${standard-diff}" arg2="1" />
+            </and>
+            <then>
+                <property name="extra-args" value="--diff" />
+            </then>
+            <elseif>
+                <equals arg1="${standard-all}" arg2="1" />
+                <then>
+                    <property name="extra-args" value="" />
+                </then>
+            </elseif>
+            <elseif>
+                <equals arg1="${standard-diff}" arg2="1" />
+                <then>
+                    <property name="extra-args" value="--stop-on-violation --diff" />
+                </then>
+            </elseif>
+            <else>
+                <property name="extra-args" value="" />
+            </else>
+        </if>
+        <exec command="php ./vendor/bin/php-cs-fixer fix --config=.php_cs -v --dry-run ${extra-args}" passthru="true" />
+    </target>
+
+    <target name="help" description="Display the help screen">
+        <switch value="${help}">
+            <case value="coverage">
+                <echo>Usage: phing [-DtestPath=/path/to/test] coverage</echo>
+            </case>
+            <case value="standards">
+                <echo>
+                    Runs lint on php files and applies coding standard rules to check your code
+                    Standards are always "--dry-run" because you should never ever ever do automatic code changes by some sort of magical fixer
+                    ${line.separator}
+                    Usage: phing [-Dstandard-all=1] [-Dstandard-diff=1] standards
+                </echo>
+            </case>
+            <case value="test">
+                <echo>Usage: phing [-DtestPath=/path/to/test] [test]</echo>
+            </case>
+            <default>
+                <echo>Usage: phing [-Dhelp=&lt;target-name&gt;] help</echo>
+            </default>
+        </switch>
+    </target>
 </project>

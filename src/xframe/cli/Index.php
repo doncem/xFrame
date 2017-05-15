@@ -1,21 +1,18 @@
 <?php
 
 namespace xframe\cli;
-use xframe\request\Controller;
+
+use Xframe\Request\Controller;
 
 /**
- * Endpoint for the xFrame CLI, displays help
- *
- * @author Linus Norton <linusnorton@gmail.com>
+ * Endpoint for the xFrame CLI, displays help.
  */
-class Index extends Controller {
-
+class Index extends Controller
+{
     /**
-     * @Request("cli-index")
+     * @Request cli-index
      */
-    public function run() {
-        
+    public function run()
+    {
     }
-
 }
-
