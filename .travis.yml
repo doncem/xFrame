@@ -22,4 +22,4 @@ before_script:
   - composer install --prefer-source
 
 after_script:
-  - php vendor/bin/coveralls --coverage_clover=report/coverage-clover/clover.xml
+  - php vendor/bin/coveralls --coverage_clover report/coverage-clover/clover.xml
