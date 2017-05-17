@@ -18,8 +18,8 @@ branches:
     - /^[0-9]+\.[0-9]+\.[0-9]+?$/
 
 before_script:
-  - composer require satooshi/php-coveralls --no-update --dev
-  - composer install --prefer-source
+  - composer require satooshi/php-coveralls --no-update
+  - composer install --no-dev
 
 after_script:
-  - php vendor/bin/coveralls --coverage_clover report/coverage-clover/clover.xml
+  - php vendor/bin/coveralls
