@@ -28,7 +28,7 @@ Installation
     ],
     "require": {
         "php": "^7.0",
-        "linusnorton/xFrame": "~1.0",
+        "linusnorton/xFrame": "~1.0"
     }
 }
 ```
