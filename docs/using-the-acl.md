@@ -15,7 +15,7 @@ The code for this plugin class will look something like this
 ```php
 namespace Demo\Plugin;
 
-use \Xframe\Plugin\Plugin;
+use Xframe\Plugin\Plugin;
 
 class DemoUser extends Plugin
 {

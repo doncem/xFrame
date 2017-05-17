@@ -6,7 +6,7 @@ This can achieved in two ways:
 Using a shared controller:
 
 ```php
-use \Xframe\Request\Controller;
+use Xframe\Request\Controller;
 
 class MyController extends Controller
 {
@@ -39,7 +39,7 @@ class MyController extends Controller
 Using inheritance:
 
 ```php
-use \Xframe\Request\Controller;
+use Xframe\Request\Controller;
 
 class Bootstrap extends Controller
 {

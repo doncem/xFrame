@@ -6,7 +6,7 @@ A lightweight MVC framework
 Features
 --------
 
-* Incredibly fast (boot in under 2ms)
+* Incredibly fast (boot in 2.2ms)
 * Simple autoloading
 * Dependency injection container
 * Annotation based request mapping
@@ -18,21 +18,26 @@ Features
 Installation
 ------------
 
-Pear installation
-
-```bash
-$ pear config-set auto_discover 1
-$ pear install pear.linusnorton.co.uk/xFrame
+```json
+{
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/doncem/annotations"
+        }
+    ],
+    "require": {
+        "php": "^7.0",
+        "linusnorton/xFrame": "~1.0",
+    }
+}
 ```
 
-Install with Doctrine2 (Optional)
+Include Doctrine2 (Optional)
 
 ```bash
-$ pear config-set auto_discover 1
-$ pear install --alldeps pear.linusnorton.co.uk/xFrame
+$ composer require doctrine/orm
 ```
-
-(Note that PHP5.3 is required and APC is recommended)
 
 Setup
 -----
@@ -40,19 +45,18 @@ Setup
 Create directory structure
 
 ```bash
-$ xframe --create-project /var/www/demo
+$ ./vendor/bin/xframe --create-project demo
 ```
 
 Getting Started
 ---------------
 
-Enter the domain you entered in the virtual host and test the set up was successful.
-
-* Start hacking `src/demo/controller/Index.php` and `view/index.html`
-* [read about request mapping](https://github.com/linusnorton/xFrame/wiki/Request-Mapping)
-* [read about the dependency injection container](https://github.com/linusnorton/xFrame/wiki/Dependency-Injection-Container)
-* [read about bootstrapping](https://github.com/linusnorton/xFrame/wiki/Bootstrap)
-* [read about Doctrine2 integration](https://github.com/linusnorton/xFrame/wiki/Doctrine2-Integration)
-* [read about the testing and the phing script](https://github.com/linusnorton/xFrame/wiki/Using-the-Phing-Script)
-* [read about adding CLI targets](https://github.com/linusnorton/xFrame/wiki/Creating-CLI-Targets)
-* [read about the exception mailer](https://github.com/linusnorton/xFrame/wiki/Exception-Mailer)
+* Start hacking `src/Demo/Controller/Index.php` and `view/index.twig`
+* [read about request mapping](http://www.donatasmart.lt/xFrame/request-mapping)
+* [read about the dependency injection container](http://www.donatasmart.lt/xFrame/dependency-injection-container)
+* [read about bootstrapping](http://www.donatasmart.lt/xFrame/bootstrap)
+* [read about Doctrine2 integration](http://www.donatasmart.lt/xFrame/doctrine2-integration)
+* [read about adding CLI targets](http://www.donatasmart.lt/xFrame/creating-cli-targets)
+* [read about the exception mailer](http://www.donatasmart.lt/xFrame/exception-mailer)
+* [read about using plugins](http://www.donatasmart.lt/xFrame/using-plugins)
+* [read about using the ACL](http://www.donatasmart.lt/xFrame/using-the-acl)

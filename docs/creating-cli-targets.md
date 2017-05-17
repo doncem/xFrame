@@ -16,4 +16,5 @@ And you can pass parameters:
 $ ./script/xframe index key=value param1
 ```
 
-If your request has a `@Parameter` annotation all single values are mapped to the values in `@Parameter`. Key value pairs are mapped directly to the request object.
+If your request has a `@Parameter` annotation all single values are mapped to the values in `@Parameter`.
+Key value pairs are mapped directly to the request object.
