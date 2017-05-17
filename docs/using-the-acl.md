@@ -82,6 +82,7 @@ class Authoriser extends Prefilter
                   ->allow('UberAdmin', 'Public');
     }
 }
+```
 
 Here you can see the `run` method simply return true or false after reading in the user role from the plugin we made earlier and checking it against the acl for the current resource.
 The `initAcl` setups up the roles and resources and permissions.
