@@ -1,6 +1,3 @@
-[![Build Status](https://travis-ci.org/doncem/xFrame.svg?branch=master)](https://travis-ci.org/doncem/xFrame)
-[![Coverage Status](https://coveralls.io/repos/github/doncem/xFrame/badge.svg?branch=master)](https://coveralls.io/github/doncem/xFrame?branch=master)
-
 PHP xFrame
 ==========
 

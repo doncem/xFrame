@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<phpunit bootstrap="test/bootstrap.php"
+         backupGlobals="false"
+         backupStaticAttributes="false"
+         colors="true"
+         verbose="true"
+         convertErrorsToExceptions="true"
+         convertNoticesToExceptions="true"
+         convertWarningsToExceptions="true"
+         processIsolation="false"
+         stopOnFailure="true">
+
+    <testsuites>
+        <testsuite name="Application Testing">
+            <directory>test/src</directory>
+        </testsuite>
+        <testsuite name="Library Testing">
+            <directory>test/lib</directory>
+        </testsuite>
+    </testsuites>
+
+    <filter>
+        <whitelist addUncoveredFilesFromWhitelist="true">
+            <directory suffix=".php">src</directory>
+            <directory suffix=".php">lib</directory>
+        </whitelist>
+    </filter>
+
+    <logging>
+        <log
+            type="coverage-html"
+            target="report/coverage-html"
+            charset="UTF-8"
+            yui="true"
+            highlight="true"
+        />
+        <log
+            type="coverage-text"
+            target="report/coverage-text/coverage.txt"
+        />
+        <log
+            type="coverage-clover"
+            target="report/coverage-clover/clover.xml"
+        />
+    </logging>
+</phpunit>
