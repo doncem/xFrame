@@ -1,24 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <project default="test" basedir=".">
-    <property name="config" value="dev" />
     <property name="help" value="" />
     <property name="standard-all" value="" />
     <property name="standard-diff" value="" />
     <property name="testPath" value="" />
-
-    <target name="test" description="Unit tests">
-        <exec passthru="true" command="./vendor/bin/phpunit -d session.name=${config} -c ./test/phpunit.xml ${testPath}"/>
-    </target>
-
-    <target name="coverage" description="Unit tests and the coverage report">
-        <delete dir="./report" />
-        <mkdir dir="./report" />
-
-        <exec outputProperty="result"
-              passthru="true"
-              command="./vendor/bin/phpunit -d session.name=${config} -c ./test/phpunit.xml --log-junit ./report/logfile.xml --coverage-html ./report/coverage-html/ $[testPath}"/>
-    </target>
 
     <target name="lint" hidden="true">
         <echo msg="Checking PHP syntax" />
@@ -66,9 +52,6 @@
 
     <target name="help" description="Display the help screen">
         <switch value="${help}">
-            <case value="coverage">
-                <echo>Usage: phing [-DtestPath=/path/to/test] coverage</echo>
-            </case>
             <case value="standards">
                 <echo>
                     Runs lint on php files and applies coding standard rules to check your code
@@ -76,9 +59,6 @@
                     ${line.separator}
                     Usage: phing [-Dstandard-all=1] [-Dstandard-diff=1] standards
                 </echo>
-            </case>
-            <case value="test">
-                <echo>Usage: phing [-DtestPath=/path/to/test] [test]</echo>
             </case>
             <default>
                 <echo>Usage: phing [-Dhelp=&lt;target-name&gt;] help</echo>

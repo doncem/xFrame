@@ -8,12 +8,18 @@ php:
 env:
   - CONFIG=dev
 
-before_script:
-  - composer self-update
-  - composer install --prefer-source
-
-script: ./vendor/bin/phpunit --bootstrap=./test/bootstrap.php --coverage-text ./test/
-
 cache:
   directories:
     - $HOME/.composer/cache
+
+branches:
+  only:
+    - master
+    - /^[0-9]+\.[0-9]+\.[0-9]+?$/
+
+before_script:
+  - composer require satooshi/php-coveralls --no-update --dev
+  - composer install --prefer-source
+
+after_script:
+  - php vendor/bin/coveralls --coverage_clover=report/coverage-clover/clover.xml
