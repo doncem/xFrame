@@ -13,7 +13,6 @@ Features
 * Simple autoloading
 * Dependency injection container
 * Annotation based request mapping
-* Phing build, test and documentation scripts
 * Multiple view types: Twig (default), PHPTAL, pure PHP
 * Inbuilt caching
 * Doctrine2 integration (optional)
@@ -26,7 +25,7 @@ Installation
     "repositories": [
         {
             "type": "vcs",
-            "url": "https://github.com/doncem/annotations"
+            "url": "https://github.com/doncem/xFrame"
         }
     ],
     "require": {
