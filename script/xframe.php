@@ -1,9 +1,5 @@
 <?php
 
-use Xframe\Autoloader\Autoloader;
-use Xframe\Core\System;
-use Xframe\Request\Request;
-
 /*
  * Welcome to xFrame. This file is the entry point for the cli. It takes the
  * command line parameters and hacks them into the $_SERVER and $_REQUEST
@@ -30,11 +26,15 @@ $_SERVER['CONFIG'] = $_REQUEST['config'] ?? 'dev';
 unset($_REQUEST['config']);
 
 $root = __DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR;
+$loader = require $root . 'vendor' . DIRECTORY_SEPARATOR . 'autoload.php';
+$loader->addPsr4('Demo\\', $root . 'src' . DIRECTORY_SEPARATOR . 'Demo');
+$loader->addPsr4('Xframe\\', [
+    $root . 'lib' . DIRECTORY_SEPARATOR . 'Xframe',
+    $root . 'src' . DIRECTORY_SEPARATOR . 'Xframe'
+]);
 
-require $root . 'lib/Xframe/Autoloader/Autoloader.php';
-
-$autoloader = new Autoloader($root);
-$autoloader->register();
+use Xframe\Core\System;
+use Xframe\Request\Request;
 
 $system = new System($root, $_SERVER['CONFIG']);
 $system->boot();
@@ -42,3 +42,7 @@ $system->boot();
 $request = new Request($_SERVER['REQUEST_URI'], $_REQUEST);
 $request->setMappedParameters($params);
 $system->getFrontController()->dispatch($request);
+
+if ('create-project' === $request->getRequestedResource()) {
+    \unlink($root . 'view' . DIRECTORY_SEPARATOR . 'create-project.twig');
+}

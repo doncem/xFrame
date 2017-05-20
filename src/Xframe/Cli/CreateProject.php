@@ -1,6 +1,6 @@
 <?php
 
-namespace xframe\cli;
+namespace Xframe\Cli;
 
 use Xframe\Request\Controller;
 
@@ -28,22 +28,17 @@ class CreateProject extends Controller
         $this->recursiveCopy($this->dic->root, $path);
 
         // clean directories
-        $this->recursiveDelete($path . '/src/xframe');
+        $this->recursiveDelete($path . '/src/Xframe');
         $this->recursiveDelete($path . '/lib');
         $this->recursiveDelete($path . '/tmp');
-        $this->recursiveDelete($path . '/log');
+        $this->recursiveDelete($path . '/docs');
 
         // remove view files
-        \unlink($path . '/view/cli-index.html');
-        \unlink($path . '/view/create-project.html');
+        \unlink($path . '/view/cli-index.twig');
 
         // rebuild directory structure
-        \mkdir($path . '/lib');
-        \chmod($path . '/lib', 0755);
         \mkdir($path . '/tmp');
         \chmod($path . '/tmp', 0777);
-        \mkdir($path . '/log');
-        \chmod($path . '/log', 0777);
 
         // hack the index.php
         $this->resetRoot($path . '/www/index.php');

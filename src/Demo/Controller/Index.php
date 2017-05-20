@@ -1,16 +1,16 @@
 <?php
 
-namespace xframe\cli;
+namespace Demo\Controller;
 
 use Xframe\Request\Controller;
 
 /**
- * Endpoint for the xFrame CLI, displays help.
+ * Controller for the demo.
  */
 class Index extends Controller
 {
     /**
-     * @Request cli-index
+     * @Request index
      */
     public function run()
     {

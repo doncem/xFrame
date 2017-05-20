@@ -112,6 +112,10 @@ class RequestMapGenerator
         try {
             $reflection = new ReflectionClass($class);
         } catch (Exception $ex) {
+            if (PHP_SAPI === 'cli') {
+                die($ex->getMessage() . PHP_EOL);
+            }
+
             return;
         }
 
