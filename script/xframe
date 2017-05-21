@@ -24,7 +24,7 @@ for ($i = 2; $i < \count($argv); ++$i) {
 $root = \getcwd() . DIRECTORY_SEPARATOR;
 $vendorRoot = $root . 'vendor' . DIRECTORY_SEPARATOR . 'linusnorton' . DIRECTORY_SEPARATOR . 'xframe' . DIRECTORY_SEPARATOR;
 
-switch ($_SERVER['REQUEST_URI']) {
+switch ($args['command']) {
     case 'create':
         createProject($root, $vendorRoot);
         echo 'Project created. Happy coding' . PHP_EOL;
@@ -63,6 +63,7 @@ function createProject(string $root, string $vendorRoot)
     // hack the index file
     $filename = $root . 'www' . DIRECTORY_SEPARATOR . 'index.php';
     $content = \file_get_contents($filename);
+    $content = \str_replace('<?php', '<?php' . PHP_EOL . '$_SERVER[\'CONFIG\'] = \'dev\';', $content);
     $content = \str_replace('\'Xframe', '\'Demo', $content);
     $content = \str_replace('\'lib\'', '\'src\'', $content);
     \file_put_contents($filename, $content);
