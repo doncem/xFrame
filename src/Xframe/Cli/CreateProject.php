@@ -11,39 +11,33 @@ class CreateProject extends Controller
 {
     /**
      * @Request create-project
-     * @Parameter -> ["path"]
      */
     public function run()
     {
-        $path = $this->request->path;
-
-        if ('.' !== $path{0} && '/' !== $path{0}) {
-            $path = \getcwd() . DIRECTORY_SEPARATOR . $path;
-        }
-
-        $path = \rtrim($path, '/\\');
+        $path = \rtrim(\getcwd() . DIRECTORY_SEPARATOR, '/\\');
         $this->view->destination = $path;
 
-        // copy the entire folder
-        $this->recursiveCopy($this->dic->root, $path);
+        $vendorPath = $this->dic->root . 'vendor' . DIRECTORY_SEPARATOR . 'linusnorton' . DIRECTORY_SEPARATOR . 'xframe' . DIRECTORY_SEPARATOR;
 
-        // clean directories
-        $this->recursiveDelete($path . '/src/Xframe');
-        $this->recursiveDelete($path . '/lib');
-        $this->recursiveDelete($path . '/tmp');
-        $this->recursiveDelete($path . '/docs');
+        // copy the web source folders
+        $this->recursiveCopy($vendorPath . 'src', $path);
+        $this->recursiveCopy($vendorPath . 'view', $path);
+        $this->recursiveCopy($vendorPath . 'www', $path);
+
+        // rebuild tmp directory
+        $this->recursiveDelete($path . 'src' . DIRECTORY_SEPARATOR . 'Xframe');
+        $this->recursiveDelete($path . 'tmp');
 
         // remove view files
-        \unlink($path . '/view/cli-index.twig');
+        \unlink($path . 'view' . DIRECTORY_SEPARATOR . 'cli-index.twig');
+        \unlink($path . 'view' . DIRECTORY_SEPARATOR . 'create-project.twig');
 
         // rebuild directory structure
-        \mkdir($path . '/tmp');
-        \chmod($path . '/tmp', 0777);
+        \mkdir($path . 'tmp');
+        \chmod($path . 'tmp', 0777);
 
         // hack the index.php
-        $this->resetRoot($path . '/www/index.php');
-        $this->resetRoot($path . '/script/xframe.php');
-        $this->resetRoot($path . '/test/bootstrap.php');
+        $this->hackIndex($path . 'www' . DIRECTORY_SEPARATOR . 'index.php');
     }
 
     /**
@@ -51,10 +45,11 @@ class CreateProject extends Controller
      *
      * @param string $filename
      */
-    private function resetRoot($filename)
+    private function hackIndex($filename)
     {
         $content = \file_get_contents($filename);
-        $content = \str_replace('$root.\'', '\'xframe/', $content);
+        $content = \preg_replace('^$loader->.+;$', '', $content);
+        $content = \str_replace('$loader = ', '', $content);
 
         \file_put_contents($filename, $content);
     }
@@ -67,21 +62,21 @@ class CreateProject extends Controller
      * @param array  $options
      */
     private function recursiveCopy($source,
-                                    $dest,
-                                    $options = [
-                                        'folderPermission' => 0755,
-                                        'filePermission' => 0755
-                                    ])
+                                   $dest,
+                                   $options = [
+                                       'folderPermission' => 0755,
+                                       'filePermission' => 0755
+                                   ])
     {
         $result = false;
 
         if (\is_file($source)) {
-            if ('/' === $dest[\mb_strlen($dest) - 1]) {
+            if (DIRECTORY_SEPARATOR === $dest[\mb_strlen($dest) - 1]) {
                 if (!\file_exists($dest)) {
                     cmfcDirectory::makeAll($dest, $options['folderPermission'], true);
                 }
 
-                $__dest = $dest . '/' . \basename($source);
+                $__dest = $dest . DIRECTORY_SEPARATOR . \basename($source);
             } else {
                 $__dest = $dest;
             }
@@ -90,7 +85,7 @@ class CreateProject extends Controller
             \chmod($__dest, $options['filePermission']);
         } elseif (\is_dir($source)) {
             if ('/' === $dest[\mb_strlen($dest) - 1]) {
-                if ('/' === $source[\mb_strlen($source) - 1]) {
+                if (DIRECTORY_SEPARATOR === $source[\mb_strlen($source) - 1]) {
                     //Copy only contents
                 } else {
                     //Change parent itself and its contents
@@ -99,7 +94,7 @@ class CreateProject extends Controller
                     \chmod($dest, $options['filePermission']);
                 }
             } else {
-                if ('/' === $source[\mb_strlen($source) - 1]) {
+                if (DIRECTORY_SEPARATOR === $source[\mb_strlen($source) - 1]) {
                     //Copy parent directory with new name and all its content
                     @\mkdir($dest, $options['folderPermission']);
                     \chmod($dest, $options['filePermission']);
@@ -114,13 +109,13 @@ class CreateProject extends Controller
 
             while ($file = \readdir($dirHandle)) {
                 if ('.' !== $file && '..' !== $file) {
-                    if (!\is_dir($source . '/' . $file)) {
-                        $__dest = $dest . '/' . $file;
+                    if (!\is_dir($source . DIRECTORY_SEPARATOR . $file)) {
+                        $__dest = $dest . DIRECTORY_SEPARATOR . $file;
                     } else {
-                        $__dest = $dest . '/' . $file;
+                        $__dest = $dest . DIRECTORY_SEPARATOR . $file;
                     }
 
-                    $result = $this->recursiveCopy($source . '/' . $file, $__dest, $options);
+                    $result = $this->recursiveCopy($source . DIRECTORY_SEPARATOR . $file, $__dest, $options);
                 }
             }
 
@@ -144,10 +139,10 @@ class CreateProject extends Controller
 
             foreach ($objects as $object) {
                 if ('.' !== $object && '..' !== $object) {
-                    if ('dir' === \filetype($dir . '/' . $object)) {
-                        $this->recursiveDelete($dir . '/' . $object);
+                    if ('dir' === \filetype($dir . DIRECTORY_SEPARATOR . $object)) {
+                        $this->recursiveDelete($dir . DIRECTORY_SEPARATOR . $object);
                     } else {
-                        \unlink($dir . '/' . $object);
+                        \unlink($dir . DIRECTORY_SEPARATOR . $object);
                     }
                 }
             }
