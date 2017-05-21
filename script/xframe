@@ -2,40 +2,141 @@
 <?php
 
 /*
- * Welcome to xFrame. This file is the entry point for the cli. It takes the
- * command line parameters and hacks them into the $_SERVER and $_REQUEST
- * variables so the standard front controller can use them.
+ * Welcome to xFrame. This file is the entry point for the cli.
  */
 
-$_SERVER['REQUEST_URI'] = isset($argv[1]) ? '/' . \str_replace('--', '', $argv[1]) : '/cli-index';
-$_REQUEST = [];
-$params = [];
+$args = [];
+
+$args['command'] = $argv[1] ?? 'help';
+$commandArgs = [];
 
 // process the cli arguments
 for ($i = 2; $i < \count($argv); ++$i) {
     if (false === \mb_strpos($argv[$i], '=')) {
-        $params[] = $argv[$i];
+        $commandArgs[] = $argv[$i];
     } else {
         $parts = \explode('=', $argv[$i]);
         $key = \str_replace('--', '', $parts[0]);
-        $_REQUEST[$key] = $parts[1];
+        $args[$key] = $parts[1];
     }
 }
 
-$_SERVER['CONFIG'] = $_REQUEST['config'] ?? 'dev';
+$root = \getcwd() . DIRECTORY_SEPARATOR;
+$vendorRoot = $root . 'vendor' . DIRECTORY_SEPARATOR . 'linusnorton' . DIRECTORY_SEPARATOR . 'xframe' . DIRECTORY_SEPARATOR;
 
-unset($_REQUEST['config']);
+switch ($_SERVER['REQUEST_URI']) {
+    case 'create':
+        createProject($root, $vendorRoot);
+        echo 'Project created. Happy coding' . PHP_EOL;
+        break;
+    case 'help':
+    default:
+        echo 'Usage:' . PHP_EOL .
+            '  $ ./vendor/bin/xframe [create]' . PHP_EOL .
+            PHP_EOL .
+            'create - copies required files from vendor lib to have a hello world' . PHP_EOL .
+            'default - prints this help' . PHP_EOL;
+        break;
+}
 
-$root = \getcwd();
+function createProject(string $root, string $vendorRoot)
+{
+    // check for config
+    if (!\file_exists($root . 'config' . DIRECTORY_SEPARATOR . 'dev.ini')) {
+        if (!\is_dir($root . 'config')) {
+            \mkdir($root . 'config', 0755);
+        }
 
-require $root . 'vendor' . DIRECTORY_SEPARATOR . 'autoload.php';
+        \copy($vendorRoot . 'config' . DIRECTORY_SEPARATOR . 'dev.ini.sample', $root . 'config' . DIRECTORY_SEPARATOR . 'dev.ini');
+    }
 
-use Xframe\Core\System;
-use Xframe\Request\Request;
+    // copy the web source folders
+    recursiveCopy($vendorRoot . 'src', $root);
+    recursiveCopy($vendorRoot . 'view', $root);
+    recursiveCopy($vendorRoot . 'www', $root);
 
-$system = new System($root, $_SERVER['CONFIG']);
-$system->boot();
+    if (!\file_exists($root . 'tmp')) {
+        \mkdir($root . 'tmp');
+        \chmod($root . 'tmp', 0777);
+    }
 
-$request = new Request($_SERVER['REQUEST_URI'], $_REQUEST);
-$request->setMappedParameters($params);
-$system->getFrontController()->dispatch($request);
+    // hack the index file
+    $filename = $root . 'www' . DIRECTORY_SEPARATOR . 'index.php';
+    $content = \file_get_contents($filename);
+    $content = \str_replace('\'Xframe', '\'Demo', $content);
+    $content = \str_replace('\'lib\'', '\'src\'', $content);
+    \file_put_contents($filename, $content);
+}
+
+/**
+ * Taken from somewhere on http://php.net.
+ *
+ * @param string $source
+ * @param string $dest
+ * @param array  $options
+ */
+function recursiveCopy($source,
+                       $dest,
+                       $options = [
+                           'folderPermission' => 0755,
+                           'filePermission' => 0755
+                       ])
+{
+    $result = false;
+
+    if (\is_file($source)) {
+        if (DIRECTORY_SEPARATOR === $dest[\mb_strlen($dest) - 1]) {
+            if (!\file_exists($dest)) {
+                cmfcDirectory::makeAll($dest, $options['folderPermission'], true);
+            }
+
+            $__dest = $dest . DIRECTORY_SEPARATOR . \basename($source);
+        } else {
+            $__dest = $dest;
+        }
+
+        $result = \copy($source, $__dest);
+        \chmod($__dest, $options['filePermission']);
+    } elseif (\is_dir($source)) {
+        if ('/' === $dest[\mb_strlen($dest) - 1]) {
+            if (DIRECTORY_SEPARATOR === $source[\mb_strlen($source) - 1]) {
+                //Copy only contents
+            } else {
+                //Change parent itself and its contents
+                $dest = $dest . \basename($source);
+                @\mkdir($dest);
+                \chmod($dest, $options['filePermission']);
+            }
+        } else {
+            if (DIRECTORY_SEPARATOR === $source[\mb_strlen($source) - 1]) {
+                //Copy parent directory with new name and all its content
+                @\mkdir($dest, $options['folderPermission']);
+                \chmod($dest, $options['filePermission']);
+            } else {
+                //Copy parent directory with new name and all its content
+                @\mkdir($dest, $options['folderPermission']);
+                \chmod($dest, $options['filePermission']);
+            }
+        }
+
+        $dirHandle = \opendir($source);
+
+        while ($file = \readdir($dirHandle)) {
+            if ('.' !== $file && '..' !== $file) {
+                if (!\is_dir($source . DIRECTORY_SEPARATOR . $file)) {
+                    $__dest = $dest . DIRECTORY_SEPARATOR . $file;
+                } else {
+                    $__dest = $dest . DIRECTORY_SEPARATOR . $file;
+                }
+
+                $result = recursiveCopy($source . DIRECTORY_SEPARATOR . $file, $__dest, $options);
+            }
+        }
+
+        \closedir($dirHandle);
+    } else {
+        $result = false;
+    }
+
+    return $result;
+}
