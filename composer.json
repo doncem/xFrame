@@ -56,5 +56,5 @@
             "Xframe\\" : "test/lib/Xframe"
         }
     },
-    "bin": ["script/xframe"]
+    "bin": ["bin/xframe"]
 }
