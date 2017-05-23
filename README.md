@@ -13,7 +13,6 @@ Features
 * Simple autoloading
 * Dependency injection container
 * Annotation based request mapping
-* Phing build, test and documentation scripts
 * Multiple view types: Twig (default), PHPTAL, pure PHP
 * Inbuilt caching
 * Doctrine2 integration (optional)
@@ -26,7 +25,7 @@ Installation
     "repositories": [
         {
             "type": "vcs",
-            "url": "https://github.com/doncem/annotations"
+            "url": "https://github.com/doncem/xFrame"
         }
     ],
     "require": {
@@ -48,7 +47,7 @@ Setup
 Create directory structure
 
 ```bash
-$ ./vendor/bin/xframe --create-project demo
+$ ./vendor/bin/xframe create
 ```
 
 Getting Started
@@ -59,7 +58,6 @@ Getting Started
 * [read about the dependency injection container](http://www.donatasmart.lt/xFrame/dependency-injection-container)
 * [read about bootstrapping](http://www.donatasmart.lt/xFrame/bootstrap)
 * [read about Doctrine2 integration](http://www.donatasmart.lt/xFrame/doctrine2-integration)
-* [read about adding CLI targets](http://www.donatasmart.lt/xFrame/creating-cli-targets)
 * [read about the exception mailer](http://www.donatasmart.lt/xFrame/exception-mailer)
 * [read about using plugins](http://www.donatasmart.lt/xFrame/using-plugins)
 * [read about using the ACL](http://www.donatasmart.lt/xFrame/using-the-acl)

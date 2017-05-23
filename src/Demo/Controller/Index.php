@@ -1,6 +1,6 @@
 <?php
 
-namespace demo\controller;
+namespace Demo\Controller;
 
 use Xframe\Request\Controller;
 
