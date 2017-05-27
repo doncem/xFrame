@@ -2,9 +2,9 @@
 
 namespace Xframe\Exception;
 
-use Exception;
 use SplObserver;
 use SplSubject;
+use Throwable;
 
 /**
  * Uses the observer pattern to handle exceptions. You may add a listener
@@ -83,9 +83,9 @@ class ExceptionHandler implements SplSubject
     /**
      * Exception handler. Notifies all observers that an exception has occurred.
      *
-     * @param Exception $e
+     * @param Throwable $e
      */
-    public function handle(Exception $e)
+    public function handle(Throwable $e)
     {
         $this->exceptions[] = $e;
         $this->notify();
