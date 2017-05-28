@@ -39,7 +39,11 @@ class Registry
             throw new Exception('Could not find: ' . $filename . ' in: ' . $context);
         }
 
-        $this->settings = \parse_ini_file($file);
+        try {
+            $this->settings = \parse_ini_file($file);
+        } catch (Exception $e) {
+            $this->settings = false;
+        }
 
         if (false === $this->settings) {
             throw new Exception('Could not process ini file: ' . $file);
