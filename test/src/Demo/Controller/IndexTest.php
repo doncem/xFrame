@@ -11,6 +11,8 @@ use Xframe\View\JsonView;
 
 class IndexTest extends TestCase
 {
+    use \Xframe\Fixtures;
+
     /**
      * @var Controller
      */
@@ -45,28 +47,13 @@ class IndexTest extends TestCase
         return $return;
     }
 
-    public function chooseRegistry(string $key)
-    {
-        switch ($key) {
-            case 'CACHE_ENABLED':
-                $value = false;
-                break;
-            default:
-                $value = null;
-                break;
-        }
-
-        return $value;
-    }
-
     protected function setUp()
     {
         $this->dic = $this->createMock('Xframe\Core\DependencyInjectionContainer');
-        $this->registry = $this->createMock('Xframe\Registry\Registry');
+        $this->registry = $this->getRegistryMock($this);
         $this->request = $this->createMock('Xframe\Request\Request');
 
         $this->dic->method('__get')->will($this->returnCallback([$this, 'chooseDicLambda']));
-        $this->registry->method('get')->will($this->returnCallback([$this, 'chooseRegistry']));
 
         $this->controller = new Index($this->dic, $this->request, 'run', new JsonView());
     }

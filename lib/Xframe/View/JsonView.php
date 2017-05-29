@@ -16,6 +16,6 @@ class JsonView extends View
      */
     public function execute()
     {
-        return \json_encode($this->parameters);
+        return \json_encode($this->attributes);
     }
 }

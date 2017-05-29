@@ -9,20 +9,20 @@ abstract class TemplateView extends View
 {
     protected $template;
     protected $viewDirectory;
-    protected $viewExtension;
+    private $viewExtension;
 
     /**
      * Initialise the template view.
      *
-     * @param string $viewDirectory
+     * @param string $root
      * @param string $viewExtension
      * @param string $template
      */
-    public function __construct($viewDirectory, $viewExtension, $template)
+    public function __construct($root, $viewExtension, $template)
     {
         parent::__construct();
 
-        $this->viewDirectory = $viewDirectory;
+        $this->viewDirectory = $root . 'view' . DIRECTORY_SEPARATOR;
         $this->viewExtension = $viewExtension;
 
         $this->setTemplate($template);

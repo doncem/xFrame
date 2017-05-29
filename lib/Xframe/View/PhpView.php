@@ -32,7 +32,7 @@ class PhpView extends TemplateView
                                 $debug = false)
     {
         parent::__construct(
-            $root . 'view' . DIRECTORY_SEPARATOR,
+            $root,
             '.phtml',
             $template
         );
