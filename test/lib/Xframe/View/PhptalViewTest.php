@@ -10,7 +10,7 @@ class PhptalViewTest extends TestCase
 
     public function testView()
     {
-        if (!class_exists('PHPTAL')) {
+        if (!\class_exists('PHPTAL')) {
             $this->markTestSkipped('PHPTAL class required');
         }
 

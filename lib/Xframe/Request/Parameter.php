@@ -2,6 +2,7 @@
 
 namespace Xframe\Request;
 
+use Exception;
 use Xframe\Validation\Validator;
 
 /**
@@ -91,6 +92,6 @@ class Parameter
         }
 
         // otherwise there was an error validating
-        throw new InvalidParameterEx('Value ' . $value . ' is not valid for parameter ' . $this->name . ' using validator ' . \get_class($this->validator) . '.');
+        throw new Exception('Value \'' . $value . '\' is not valid for parameter \'' . $this->name . '\' using validator \'' . \get_class($this->validator) . '\'.');
     }
 }

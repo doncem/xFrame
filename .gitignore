@@ -1,6 +1,6 @@
 *.lock
-config/*.ini
-nbproject
-report
-tmp
-vendor
+/config/*.ini
+/nbproject
+/report
+/tmp
+/vendor
