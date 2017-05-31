@@ -7,7 +7,6 @@ use Minime\Annotations\AnnotationsBag;
 use Minime\Annotations\Cache\FileCache;
 use Minime\Annotations\Parser;
 use Minime\Annotations\Reader;
-use ReflectionAnnotatedMethod;
 use ReflectionClass;
 use ReflectionMethod;
 use Xframe\Core\DependencyInjectionContainer;
@@ -55,7 +54,7 @@ class RequestMapGenerator
     /**
      * @return CachedReader
      */
-    private function getAnnotationReader()
+    protected function getAnnotationReader()
     {
         if (null === $this->reader) {
             $this->reader = new Reader(
@@ -93,9 +92,13 @@ class RequestMapGenerator
                 $class = \str_replace(DIRECTORY_SEPARATOR, '\\', $class);
                 $class = \pathinfo($class, PATHINFO_FILENAME);
 
-                $this->analyseClass($class);
+                if ($this->analyseClass($class)) {
+                    break;
+                }
             }
         }
+
+        \closedir($dh);
     }
 
     /**
@@ -105,7 +108,7 @@ class RequestMapGenerator
      *
      * @param string $class
      *
-     * @return string
+     * @return bool
      */
     private function analyseClass($class)
     {
@@ -113,10 +116,10 @@ class RequestMapGenerator
             $reflection = new ReflectionClass($class);
         } catch (Exception $ex) {
             if (PHP_SAPI === 'cli') {
-                die($ex->getMessage() . PHP_EOL);
+                echo $ex->getMessage() . PHP_EOL;
             }
 
-            return;
+            return false;
         }
 
         if ($reflection->isSubclassOf('Xframe\\Request\\Controller')) {
@@ -131,6 +134,8 @@ class RequestMapGenerator
                 }
             }
         }
+
+        return true;
     }
 
     /**
@@ -217,19 +222,5 @@ class RequestMapGenerator
         } catch (Exception $e) {
             throw new Exception('Could not create request cache file: ' . $filename, 0, $e);
         }
-    }
-
-    /**
-     * Return the given parameter if it exists or the $default if not.
-     *
-     * @param ReflectionAnnotatedMethod $annotation
-     * @param string                    $param
-     * @param mixed                     $default
-     *
-     * @return mixed
-     */
-    private function getOrReturn(ReflectionAnnotatedMethod $annotation, $param, $default)
-    {
-        return $annotation->hasAnnotation($param) ? $annotation->getAnnotation($param)->value : $default;
     }
 }

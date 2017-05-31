@@ -63,6 +63,10 @@ trait Fixtures
                 $value = false;
 
                 break;
+            case 'DEFAULT_VIEW':
+                $value = 'Xframe\View\JsonView';
+
+                break;
             default:
                 $value = null;
 
