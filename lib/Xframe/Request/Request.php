@@ -2,6 +2,7 @@
 
 namespace Xframe\Request;
 
+use Exception;
 use Xframe\Util\Container;
 
 /**
@@ -64,7 +65,7 @@ class Request extends Container
         foreach ($map as $i => $parameter) {
             // if there is no key value for this param, throw an exception
             if ($parameter->isRequired() && !isset($this->mappedParameters[$i])) {
-                throw new RequiredParameterEx("Parameter #{$i}({$parameter->getName()}) has not been provided and is required");
+                throw new Exception("Parameter #{$i}({$parameter->getName()}) has not been provided and is required");
             }
 
             // if there is no value, try to get the default value
@@ -120,7 +121,7 @@ class Request extends Container
     public function hash()
     {
         return \md5($this->requestedResource .
-            \implode($this->parameters) .
-            \implode(\array_keys($this->parameters)));
+            \implode($this->mappedParameters) .
+            \implode(\array_keys($this->mappedParameters)));
     }
 }

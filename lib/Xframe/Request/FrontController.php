@@ -84,7 +84,7 @@ class FrontController
         return $this->notFoundController;
     }
 
-    private function rebuildRequestMap()
+    protected function rebuildRequestMap()
     {
         $mapper = new RequestMapGenerator($this->dic);
 

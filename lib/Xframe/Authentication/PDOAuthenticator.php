@@ -92,10 +92,15 @@ class PDOAuthenticator implements Authenticator
                                     FROM `{$this->table}`
                                     WHERE
                                         `{$this->identityColumn}` = :identity");
-        $stmt->bindParam(':identity', $identity);
-        $stmt->execute();
 
-        return $stmt->fetchAll(PDO::FETCH_CLASS, 'stdClass');
+        if (false !== $stmt) {
+            $stmt->bindParam(':identity', $identity);
+            $stmt->execute();
+
+            return $stmt->fetchAll(PDO::FETCH_CLASS, 'stdClass');
+        } else {
+            throw new Exception('Could not prepare statement for Authentication');
+        }
     }
 
     /**
@@ -114,8 +119,8 @@ class PDOAuthenticator implements Authenticator
             $this->result->setCode(Result::AMBIGUOUS_IDENTITY);
         } elseif ($result[0]->{$this->credentialColumn} !== $credential) {
             $this->result->setCode(Result::INVALID_CREDENTIAL);
+        } else {
+            $this->result->setCode(Result::SUCCESS);
         }
-
-        $this->result->setCode(Result::SUCCESS);
     }
 }

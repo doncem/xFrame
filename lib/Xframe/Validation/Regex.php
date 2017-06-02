@@ -45,10 +45,11 @@ class Regex implements Validator
      */
     public function validate($value)
     {
+        $matches = [];
         $result = \preg_match(
             $this->pattern,
             $value,
-            $null,
+            $matches,
             $this->flags,
             $this->offset
         );

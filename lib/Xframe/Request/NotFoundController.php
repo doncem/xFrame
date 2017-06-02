@@ -23,6 +23,6 @@ class NotFoundController extends Controller
             \header(\filter_input(INPUT_SERVER, 'SERVER_PROTOCOL') . ' 404 Not Found');
         }
 
-        die('Resource: ' . $this->request->getRequestedResource() . ' not found.' . PHP_EOL);
+        echo 'Resource: ' . $this->request->getRequestedResource() . ' not found.' . PHP_EOL;
     }
 }

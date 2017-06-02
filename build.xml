@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<project default="test" basedir=".">
+<project default="standards" basedir=".">
     <property name="help" value="" />
     <property name="standard-all" value="" />
     <property name="standard-diff" value="" />
