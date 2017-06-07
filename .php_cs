@@ -1,11 +1,12 @@
 <?php
 
 $finder = PhpCsFixer\Finder::create()
-    ->exclude('lib/addendum')
-    ->exclude('nbproject')
-    ->exclude('report')
-    ->exclude('tmp')
-    ->exclude('vendor')
+    ->exclude([
+        'nbproject',
+        'report',
+        'tmp',
+        'vendor'
+    ])
     ->in(__DIR__)
 ;
 
