@@ -1,5 +1,17 @@
 # Change Log
 
+## [1.0.1](https://github.com/doncem/xFrame/tree/1.0.1) (2017-06-07)
+[Full Changelog](https://github.com/doncem/xFrame/compare/1.0.0...1.0.1)
+
+**Closed issues:**
+
+- Installation update [\#6](https://github.com/doncem/xFrame/issues/6)
+- PHP Coding Standards finder [\#8](https://github.com/doncem/xFrame/issues/8)
+
+**Merged pull requests:**
+
+- updating guidelines for installation [\#10](https://github.com/doncem/xFrame/pull/10) ([doncem](https://github.com/doncem))
+
 ## [1.0.0](https://github.com/doncem/xFrame/tree/1.0.0) (2017-06-02)
 **Merged pull requests:**
 
