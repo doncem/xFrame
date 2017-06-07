@@ -2,13 +2,13 @@
 
 namespace Xframe\Request;
 
-use Exception;
 use Minime\Annotations\AnnotationsBag;
 use Minime\Annotations\Cache\FileCache;
 use Minime\Annotations\Parser;
 use Minime\Annotations\Reader;
 use ReflectionClass;
 use ReflectionMethod;
+use Throwable;
 use Xframe\Core\DependencyInjectionContainer;
 
 /**
@@ -219,8 +219,8 @@ class RequestMapGenerator
 
         try {
             \file_put_contents($filename, $fileContents);
-        } catch (Exception $e) {
-            throw new Exception('Could not create request cache file: ' . $filename, 0, $e);
+        } catch (Throwable $e) {
+            \trigger_error('Could not create request cache file: ' . $filename, E_USER_ERROR);
         }
     }
 }

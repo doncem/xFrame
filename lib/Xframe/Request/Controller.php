@@ -87,7 +87,7 @@ class Controller
     public function redirect($location)
     {
         if (\headers_sent()) {
-            throw new Exception("Could not redirect to {$location}, headers already sent");
+            \trigger_error("Could not redirect to '$location', headers already sent", E_USER_ERROR);
         }
 
         \header('Location: ' . $location);
@@ -100,7 +100,7 @@ class Controller
     public function forbidden()
     {
         if (\headers_sent()) {
-            throw new Exception('Error sending 403, headers already sent');
+            \trigger_error('Error sending 403, headers already sent', E_USER_ERROR);
         }
 
         \header('HTTP/1.1 403 Forbidden');

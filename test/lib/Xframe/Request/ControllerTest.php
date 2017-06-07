@@ -39,7 +39,7 @@ class ControllerTest extends TestCase
     public function testRedirectFailure()
     {
         $this->expectException('Exception');
-        $this->expectExceptionMessage('Could not redirect to index, headers already sent');
+        $this->expectExceptionMessage('Could not redirect to \'index\', headers already sent');
 
         $this->controller->redirect('index');
     }
