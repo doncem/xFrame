@@ -27,12 +27,17 @@ Installation
     "repositories": [
         {
             "type": "vcs",
-            "url": "https://github.com/doncem/xFrame"
+            "url": "git://github.com/doncem/annotations.git"
+        },
+        {
+            "type": "vcs",
+            "url": "git://github.com/doncem/xFrame.git"
         }
     ],
     "require": {
-        "php": "^7.0",
-        "linusnorton/xFrame": "~1.0"
+        "php": "^7",
+        "minime/annotations": "dev-type-upgrade as 3.0.x-dev",
+        "linusnorton/xframe": "~1.0"
     }
 }
 ```
