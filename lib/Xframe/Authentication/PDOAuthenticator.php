@@ -2,8 +2,8 @@
 
 namespace Xframe\Authentication;
 
-use Exception;
 use PDO;
+use PDOException;
 
 /**
  * A PDO implementation of the Authenticator.
@@ -63,7 +63,7 @@ class PDOAuthenticator implements Authenticator
         try {
             $dbResult = $this->fetchDbResult($identity);
             $this->processDbResult($dbResult, $credential);
-        } catch (Exception $ex) {
+        } catch (PDOException $ex) {
             $this->result->setCode(Result::GENERAL_FAILURE);
             $this->result->setMessages([
                 'code' => $ex->getCode(),
@@ -99,7 +99,7 @@ class PDOAuthenticator implements Authenticator
 
             return $stmt->fetchAll(PDO::FETCH_CLASS, 'stdClass');
         } else {
-            throw new Exception('Could not prepare statement for Authentication');
+            throw new PDOException('Could not prepare statement');
         }
     }
 

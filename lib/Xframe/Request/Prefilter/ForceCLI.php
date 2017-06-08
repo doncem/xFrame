@@ -25,7 +25,7 @@ class ForceCLI extends Prefilter
     public function run(Request $request, Controller $controller)
     {
         if (!$request->cli) {
-            throw new Exception('This request must be performed on the CLI.');
+            \trigger_error('This request must be performed on the CLI.', E_USER_ERROR);
         }
     }
 }

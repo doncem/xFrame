@@ -28,15 +28,17 @@ class RegistryTest extends TestCase
 
     public function testFileNotFoundLoadFailure()
     {
+        $context = 'test' . DIRECTORY_SEPARATOR . 'config';
+
         $this->expectException('Exception');
-        $this->expectExceptionMessage('Could not find: valid in: test' . DIRECTORY_SEPARATOR . 'config');
-        $this->registry->load('valid', 'test' . DIRECTORY_SEPARATOR . 'config');
+        $this->expectExceptionMessage('File "' . $context . DIRECTORY_SEPARATOR . 'valid" could not be found.');
+        $this->registry->load('valid', $context);
     }
 
     public function testLoadFailure()
     {
         $this->expectException('Exception');
-        $this->expectExceptionMessage('Could not process ini file: test' . DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR . 'invalid.ini');
+        $this->expectExceptionMessage('Could not process ini file');
         $this->registry->load('invalid.ini', 'test' . DIRECTORY_SEPARATOR . 'config');
     }
 

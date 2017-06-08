@@ -37,6 +37,7 @@
     "require": {
         "php": "^7.0",
         "minime/annotations": "dev-type-upgrade as 3.0.x-dev",
+        "symfony/filesystem": "~v3.3",
         "twig/twig": "~v2.4"
     },
     "require-dev": {

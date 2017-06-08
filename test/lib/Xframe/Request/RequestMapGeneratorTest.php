@@ -4,7 +4,6 @@ namespace Xframe\Request;
 
 use Minime\Annotations\Cache\ArrayCache;
 use PHPUnit\Framework\TestCase;
-use Xframe\Core\DependencyInjectionContainer;
 
 class RequestMapGeneratorMock extends RequestMapGenerator
 {
@@ -45,7 +44,8 @@ class RequestMapGeneratorTest extends TestCase
 
     public function testVeryWrongDirectory()
     {
-        //$this->expectOutputRegex("/lib\\Xframe\\Request\\..\\Fixtures does not exist/m");
+        $this->expectException('ReflectionException');
+//        $this->expectOutputRegex("/lib\\Xframe\\Request\\..\\Fixtures does not exist/m");
 
         $this->assertEmpty($this->generator->scan(__DIR__ . DIRECTORY_SEPARATOR . '..'));
     }

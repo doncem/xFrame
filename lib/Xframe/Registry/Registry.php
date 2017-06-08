@@ -2,7 +2,9 @@
 
 namespace Xframe\Registry;
 
-use Exception;
+use Symfony\Component\Filesystem\Exception\FileNotFoundException;
+use Symfony\Component\Filesystem\Exception\IOException;
+use Throwable;
 
 /**
  * Implementation of the Registry pattern. Used to store configuration.
@@ -36,17 +38,17 @@ class Registry
         } elseif (\is_file($context . DIRECTORY_SEPARATOR . $filename)) {
             $file = $context . DIRECTORY_SEPARATOR . $filename;
         } else {
-            throw new Exception('Could not find: ' . $filename . ' in: ' . $context);
+            throw new FileNotFoundException(null, 0, null, $context . DIRECTORY_SEPARATOR . $filename);
         }
 
         try {
             $this->settings = \parse_ini_file($file);
-        } catch (Exception $e) {
+        } catch (Throwable $e) {
             $this->settings = false;
         }
 
         if (false === $this->settings) {
-            throw new Exception('Could not process ini file: ' . $file);
+            throw new IOException('Could not process ini file', 0, null, $file);
         }
     }
 

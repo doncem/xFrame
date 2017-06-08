@@ -58,7 +58,7 @@ class PDOAuthenticatorTest extends TestCase
         $result = $this->authenticator->authenticate('identity', 'credential');
 
         $this->assertEquals(Result::GENERAL_FAILURE, $result->getCode());
-        $this->assertEquals('Could not prepare statement for Authentication', $result->getMessages()['message']);
+        $this->assertEquals('Could not prepare statement', $result->getMessages()['message']);
     }
 
     public function testEmptyTable()
