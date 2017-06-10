@@ -3,6 +3,7 @@
 namespace Xframe;
 
 use PHPUnit\Framework\TestCase;
+use Xframe\Registry\RequestRegistry;
 
 class RegistryTest extends TestCase
 {
@@ -24,18 +25,15 @@ class RegistryTest extends TestCase
     public function testFileNotFoundLoadFailure()
     {
         $context = 'test' . DIRECTORY_SEPARATOR . 'config';
+        $registry = Registry::load('valid', $context);
 
-        $this->expectException('Exception');
-        $this->expectExceptionMessage('File "' . $context . DIRECTORY_SEPARATOR . 'valid" could not be found.');
-
-        Registry::load('valid', $context);
+        $this->assertEquals(RequestRegistry::AUTO_REBUILD, $registry->request->AUTO_REBUILD);
     }
 
     public function testLoadFailure()
     {
-        $this->expectException('Exception');
-        $this->expectExceptionMessage('Could not process ini file');
+        $registry = Registry::load('invalid.ini', 'test' . DIRECTORY_SEPARATOR . 'config');
 
-        Registry::load('invalid.ini', 'test' . DIRECTORY_SEPARATOR . 'config');
+        $this->assertEquals(RequestRegistry::AUTO_REBUILD, $registry->request->AUTO_REBUILD);
     }
 }

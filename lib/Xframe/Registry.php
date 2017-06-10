@@ -2,8 +2,6 @@
 
 namespace Xframe;
 
-use Symfony\Component\Filesystem\Exception\FileNotFoundException;
-use Symfony\Component\Filesystem\Exception\IOException;
 use Throwable;
 use Xframe\Registry\CacheRegistry;
 use Xframe\Registry\DatabaseRegistry;
@@ -32,7 +30,7 @@ class Registry extends Container
         } elseif (\is_file($context . DIRECTORY_SEPARATOR . $filename)) {
             $file = $context . DIRECTORY_SEPARATOR . $filename;
         } else {
-            throw new FileNotFoundException(null, 0, null, $context . DIRECTORY_SEPARATOR . $filename);
+            $file = null;
         }
 
         return $file;
@@ -55,11 +53,7 @@ class Registry extends Container
         try {
             $settings = \parse_ini_file($file, true);
         } catch (Throwable $e) {
-            $settings = false;
-        }
-
-        if (false === $settings) {
-            throw new IOException('Could not process ini file', 0, null, $file);
+            $settings = [];
         }
 
         return new self([
