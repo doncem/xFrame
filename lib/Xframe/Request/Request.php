@@ -2,8 +2,7 @@
 
 namespace Xframe\Request;
 
-use Exception;
-use Xframe\Util\Container;
+use Xframe\Container;
 
 /**
  * This encapsulates a given request. Usually this object will be routed

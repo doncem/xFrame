@@ -11,7 +11,7 @@ By default it stores the registry, database handle (PDO), Memcache instance and 
  */
 public function run()
 {
-    $this->dic->registry->get('ADMIN');
+    $this->dic->registry->ADMIN;
 }
 ```
 

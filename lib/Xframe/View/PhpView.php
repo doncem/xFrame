@@ -2,7 +2,7 @@
 
 namespace Xframe\View;
 
-use Xframe\Registry\Registry;
+use Xframe\Registry;
 
 /**
  * PHPView is the view for the pure PHP view scripts.

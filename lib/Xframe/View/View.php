@@ -2,7 +2,7 @@
 
 namespace Xframe\View;
 
-use Xframe\Util\Container;
+use Xframe\Container;
 
 /**
  * This abstract class specifies the requirements for a view.

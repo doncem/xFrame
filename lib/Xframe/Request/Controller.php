@@ -2,7 +2,6 @@
 
 namespace Xframe\Request;
 
-use Exception;
 use Xframe\Core\DependencyInjectionContainer;
 use Xframe\View\View;
 
@@ -74,7 +73,7 @@ class Controller
         $this->method = $method;
         $this->prefilters = $prefilters;
         $this->cacheLength = $cacheLength;
-        $this->cacheEnabled = $this->dic->registry->get('CACHE_ENABLED');
+        $this->cacheEnabled = $this->dic->registry->cache->ENABLED;
         $this->view = $view;
     }
 

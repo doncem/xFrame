@@ -51,15 +51,11 @@ trait Fixtures
     public function chooseRegistry(string $key)
     {
         switch ($key) {
-            case 'AUTO_REBUILD_REQUEST_MAP':
+            case 'AUTO_REBUILD':
                 $value = true;
 
                 break;
-            case 'AUTO_REBUILD_TWIG':
-                $value = true;
-
-                break;
-            case 'CACHE_ENABLED':
+            case 'ENABLED':
                 $value = false;
 
                 break;
@@ -119,9 +115,14 @@ trait Fixtures
 
     public function getRegistryMock(TestCase $case)
     {
-        $registry = $this->getMock($case, 'Xframe\Registry\Registry');
+        $registry = $this->getMock($case, 'Xframe\Registry');
+        $container = $this->getMock($case, 'Xframe\Container');
 
-        $registry->method('get')->will($this->returnCallback([$this, 'chooseRegistry']));
+        $registry->method('__get')->willReturn($container);
+        $registry->method('__get')->willReturn($container);
+        $registry->method('__get')->willReturn($container);
+
+        $container->method('__get')->willReturn([$this, 'chooseRegistry']);
 
         return $registry;
     }

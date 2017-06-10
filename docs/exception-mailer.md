@@ -8,7 +8,7 @@ The exception mailer can be attached to the exception handler so that it sends a
  */
 public function init()
 {
-    $recipient = $this->dic->registry->get('ADMIN');
+    $recipient = $this->dic->registry->ADMIN;
     $mailer = new \Xframe\Exception\Mailer($recipient);
     $this->dic->exceptionHandler->attach($mailer);
 }

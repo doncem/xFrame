@@ -2,10 +2,26 @@
 
 namespace Xframe\Core;
 
-use Xframe\Util\Container;
+use Doctrine\ORM\EntityManager;
+use Memcache;
+use PDO;
+use Xframe\Container;
+use Xframe\Exception\ErrorHandler;
+use Xframe\Exception\ExceptionHandler;
+use Xframe\Registry;
+use Xframe\Request\FrontController;
 
 /**
  * Used to store the applications dependencies.
+ *
+ * @property ErrorHandler $errorHandler
+ * @property ExceptionHandler $exceptionHandler
+ * @property FrontController $frontController
+ * @property Registry $registry
+ * @property PDO $database
+ * @property Container $plugin
+ * @property Memcache $cache
+ * @property EntityManager $em
  *
  * @package core
  */

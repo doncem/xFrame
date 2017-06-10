@@ -52,7 +52,7 @@ class FrontController
         if (\file_exists($filename)) {
             //return the response from the controller
             $controller = require $filename;
-        } elseif ($this->dic->registry->get('AUTO_REBUILD_REQUEST_MAP')) {
+        } elseif ($this->dic->registry->request->AUTO_REBUILD) {
             $this->rebuildRequestMap();
             $filename = $this->dic->tmp . $request->getRequestedResource() . '.php';
 
