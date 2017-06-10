@@ -1,6 +1,6 @@
 <?php
 
-namespace Xframe\Util;
+namespace Xframe;
 
 /**
  * Container for arbitrary data, provides __get and __set methods can easily

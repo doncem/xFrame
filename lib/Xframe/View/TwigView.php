@@ -5,7 +5,7 @@ namespace Xframe\View;
 use Twig_Environment;
 use Twig_Extension_Debug;
 use Twig_Loader_Filesystem;
-use Xframe\Registry\Registry;
+use Xframe\Registry;
 
 /**
  * TwigView is the view for Fabien Potiencier's Twig templating language.
@@ -43,7 +43,7 @@ class TwigView extends TemplateView
             [
                 'cache' => $tmpDir,
                 'debug' => $debug,
-                'auto_reload' => $registry->get('AUTO_REBUILD_TWIG')
+                'auto_reload' => $registry->twig->AUTO_REBUILD
             ]
         );
 

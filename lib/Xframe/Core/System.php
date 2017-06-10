@@ -13,7 +13,7 @@ use Xframe\Exception\ErrorHandler;
 use Xframe\Exception\ExceptionHandler;
 use Xframe\Exception\ExceptionOutputter;
 use Xframe\Exception\Logger;
-use Xframe\Registry\Registry;
+use Xframe\Registry;
 use Xframe\Request\FrontController;
 
 /**
@@ -41,7 +41,7 @@ class System extends DependencyInjectionContainer
         $this->setDefaultErrorHandler();
         $this->setDefaultExceptionHandler();
         $this->setDefaultFrontController();
-        $this->setDefaultRegistry();
+        $this->setDefaultRegistry($this->configFilename, $this->root);
         $this->setDefaultPluginContainer();
     }
 
@@ -50,13 +50,12 @@ class System extends DependencyInjectionContainer
      */
     public function boot()
     {
-        $this->getRegistry()->load($this->configFilename, $this->root);
         $this->getErrorHandler()->register();
         $this->getExceptionHandler()->register();
         $this->getExceptionHandler()->attach(new Logger());
         $this->getExceptionHandler()->attach(new ExceptionOutputter());
 
-        if ($this->registry->get('CACHE_ENABLED')) {
+        if ($this->registry->cache->ENABLED) {
             $this->getDefaultCache();
         }
     }
@@ -66,7 +65,7 @@ class System extends DependencyInjectionContainer
      */
     private function setDefaultErrorHandler()
     {
-        $this->add('errorHandler', function ($dic) {
+        $this->add('errorHandler', function (DependencyInjectionContainer $dic) {
             return new ErrorHandler();
         });
     }
@@ -76,7 +75,7 @@ class System extends DependencyInjectionContainer
      */
     private function setDefaultExceptionHandler()
     {
-        $this->add('exceptionHandler', function ($dic) {
+        $this->add('exceptionHandler', function (DependencyInjectionContainer $dic) {
             return new ExceptionHandler();
         });
     }
@@ -86,18 +85,21 @@ class System extends DependencyInjectionContainer
      */
     private function setDefaultFrontController()
     {
-        $this->add('frontController', function ($dic) {
+        $this->add('frontController', function (DependencyInjectionContainer $dic) {
             return new FrontController($dic);
         });
     }
 
     /**
      * Set the lambda for registry.
+     *
+     * @param string $filename
+     * @param string $context
      */
-    private function setDefaultRegistry()
+    private function setDefaultRegistry(string $filename, string $context)
     {
-        $this->add('registry', function ($dic) {
-            return new Registry();
+        $this->add('registry', function (DependencyInjectionContainer $dic) use ($filename, $context) {
+            return Registry::load($filename, $context);
         });
     }
 
@@ -106,13 +108,14 @@ class System extends DependencyInjectionContainer
      */
     private function setDefaultDatabase()
     {
-        $this->add('database', function ($dic) {
-            $db = $dic->registry->get('DATABASE_ENGINE');
-            $host = $dic->registry->get('DATABASE_HOST');
-            $port = $dic->registry->get('DATABASE_PORT');
-            $name = $dic->registry->get('DATABASE_NAME');
-            $user = $dic->registry->get('DATABASE_USERNAME');
-            $pass = $dic->registry->get('DATABASE_PASSWORD');
+        $this->add('database', function (DependencyInjectionContainer $dic) {
+            $registry = $dic->registry->database;
+            $db = $registry->ENGINE;
+            $host = $registry->HOST;
+            $port = $registry->PORT;
+            $name = $registry->NAME;
+            $user = $registry->USERNAME;
+            $pass = $registry->PASSWORD;
 
             $database = new PDO(
                 $db . ':host=' . $host . ';dbname=' . $name . ($port ? ';port=' . $port : ''),
@@ -130,10 +133,10 @@ class System extends DependencyInjectionContainer
      */
     private function setDefaultPluginContainer()
     {
-        $this->add('plugin', function ($dic) {
+        $this->add('plugin', function (DependencyInjectionContainer $dic) {
             $pluginContainer = new DependencyInjectionContainer();
 
-            foreach ($dic->registry->get('PLUGIN') as $key => $plugin) {
+            foreach ($dic->registry->plugin as $key => $plugin) {
                 $pluginContainer->add($key, function ($pDic) use ($dic, $plugin) {
                     $p = new $plugin($dic);
 
@@ -150,11 +153,11 @@ class System extends DependencyInjectionContainer
      */
     private function getDefaultCache()
     {
-        $this->add('cache', function ($dic) {
+        $this->add('cache', function (DependencyInjectionContainer $dic) {
             $cache = new Memcache();
             $cache->addServer(
-                $dic->registry->get('MEMCACHE_HOST'),
-                $dic->registry->get('MEMCACHE_PORT')
+                $dic->registry->cache->HOST,
+                $dic->registry->cache->PORT
             );
 
             return $cache;
@@ -166,10 +169,10 @@ class System extends DependencyInjectionContainer
      */
     private function setDefaultEm()
     {
-        $this->add('em', function ($dic) {
+        $this->add('em', function (DependencyInjectionContainer $dic) {
             if (\extension_loaded('apc')) {
                 $cache = new ApcCache();
-            } elseif ($dic->registry->get('CACHE_ENABLED')) {
+            } elseif ($dic->registry->cache->ENABLED) {
                 $cache = new MemcacheCache();
                 $cache->setMemcache($dic->cache);
             } else {
@@ -187,7 +190,7 @@ class System extends DependencyInjectionContainer
             $config->setProxyDir($dic->tmp . DIRECTORY_SEPARATOR);
             $config->setProxyNamespace('Project\Proxies');
 
-            $rebuild = $dic->registry->get('AUTO_REBUILD_PROXIES');
+            $rebuild = $dic->registry->doctrine2->AUTO_REBUILD_PROXIES;
             $config->setAutoGenerateProxyClasses($rebuild);
 
             $connectionOptions = ['pdo' => $dic->getDatabase()];

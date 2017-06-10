@@ -154,7 +154,7 @@ class RequestMapGenerator
         }
 
         $cacheLength = $annotations->get('CacheLength', false);
-        $view = $annotations->get('View', $this->dic->registry->get('DEFAULT_VIEW'));
+        $view = $annotations->get('View', $this->dic->registry->request->DEFAULT_VIEW);
         $template = $annotations->get('Template', $request);
 
         $prefilters = $annotations->get('Prefilter', []);
