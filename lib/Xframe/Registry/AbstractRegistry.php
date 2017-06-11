@@ -4,6 +4,9 @@ namespace Xframe\Registry;
 
 use Xframe\Container;
 
+/**
+ * @package registry
+ */
 abstract class AbstractRegistry extends Container
 {
     public function __get($key)

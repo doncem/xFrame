@@ -6,6 +6,8 @@ namespace Xframe\Registry;
  * @property bool   $ENABLED
  * @property string $HOST
  * @property int    $PORT
+ *
+ * @package registry
  */
 final class CacheRegistry extends AbstractRegistry
 {
