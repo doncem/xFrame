@@ -7,7 +7,6 @@ Features
 --------
 
 * Incredibly fast (boot in 2.2ms)
-* Simple autoloading
 * Dependency injection container
 * Annotation based request mapping
 * Multiple view types: Twig (default), PHPTAL, pure PHP
