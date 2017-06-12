@@ -2,13 +2,16 @@
 
 namespace Xframe;
 
+use ArrayIterator;
+use IteratorAggregate;
+
 /**
  * Container for arbitrary data, provides __get and __set methods can easily
  * be used as a dependency injection container or generic model/data container.
  *
  * @package util
  */
-class Container
+class Container implements IteratorAggregate
 {
     /**
      * Associative array storing container attributes.
@@ -91,5 +94,13 @@ class Container
             case 'set':
                 $this->__set($property, \current($arguments));
         }
+    }
+
+    /**
+     * @return ArrayIterator
+     */
+    public function getIterator()
+    {
+        return new ArrayIterator($this->attributes);
     }
 }

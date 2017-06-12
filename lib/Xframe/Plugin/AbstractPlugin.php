@@ -9,7 +9,7 @@ use Xframe\Core\DependencyInjectionContainer;
  *
  * @package plugin
  */
-abstract class Plugin
+abstract class AbstractPlugin
 {
     /**
      * @var DependencyInjectionContainer
