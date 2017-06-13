@@ -2,17 +2,14 @@
 
 namespace Xframe\Core;
 
-use Doctrine\Common\Cache\ApcCache;
-use Doctrine\Common\Cache\ArrayCache;
-use Doctrine\Common\Cache\MemcacheCache;
-use Doctrine\ORM\Configuration;
-use Doctrine\ORM\EntityManager;
-use Memcache;
-use PDO;
 use Xframe\Exception\ErrorHandler;
 use Xframe\Exception\ExceptionHandler;
 use Xframe\Exception\ExceptionOutputter;
 use Xframe\Exception\Logger;
+use Xframe\Plugin\DefaultCachePlugin;
+use Xframe\Plugin\DefaultDatabasePlugin;
+use Xframe\Plugin\DefaultEMPlugin;
+use Xframe\Plugin\DefaultPluginContainerPlugin;
 use Xframe\Registry;
 use Xframe\Request\FrontController;
 
@@ -109,22 +106,7 @@ class System extends DependencyInjectionContainer
     private function setDefaultDatabase()
     {
         $this->add('database', function (DependencyInjectionContainer $dic) {
-            $registry = $dic->registry->database;
-            $db = $registry->ENGINE;
-            $host = $registry->HOST;
-            $port = $registry->PORT;
-            $name = $registry->NAME;
-            $user = $registry->USERNAME;
-            $pass = $registry->PASSWORD;
-
-            $database = new PDO(
-                $db . ':host=' . $host . ';dbname=' . $name . ($port ? ';port=' . $port : ''),
-                $user,
-                $pass
-            );
-            $database->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-
-            return $database;
+            return (new DefaultDatabasePlugin($dic))->init();
         });
     }
 
@@ -134,17 +116,7 @@ class System extends DependencyInjectionContainer
     private function setDefaultPluginContainer()
     {
         $this->add('plugin', function (DependencyInjectionContainer $dic) {
-            $pluginContainer = new DependencyInjectionContainer();
-
-            foreach ($dic->registry->plugin as $key => $plugin) {
-                $pluginContainer->add($key, function ($pDic) use ($dic, $plugin) {
-                    $p = new $plugin($dic);
-
-                    return $p->init();
-                });
-            }
-
-            return $pluginContainer;
+            return (new DefaultPluginContainerPlugin($dic))->init();
         });
     }
 
@@ -154,13 +126,7 @@ class System extends DependencyInjectionContainer
     private function getDefaultCache()
     {
         $this->add('cache', function (DependencyInjectionContainer $dic) {
-            $cache = new Memcache();
-            $cache->addServer(
-                $dic->registry->cache->HOST,
-                $dic->registry->cache->PORT
-            );
-
-            return $cache;
+            return (new DefaultCachePlugin($dic))->init();
         });
     }
 
@@ -170,32 +136,7 @@ class System extends DependencyInjectionContainer
     private function setDefaultEm()
     {
         $this->add('em', function (DependencyInjectionContainer $dic) {
-            if (\extension_loaded('apc')) {
-                $cache = new ApcCache();
-            } elseif ($dic->registry->cache->ENABLED) {
-                $cache = new MemcacheCache();
-                $cache->setMemcache($dic->cache);
-            } else {
-                $cache = new ArrayCache();
-            }
-
-            $config = new Configuration();
-            $config->setMetadataCacheImpl($cache);
-            $driver = $config->newDefaultAnnotationDriver([
-                $dic->root . 'src',
-                $dic->root . 'lib'
-            ]);
-            $config->setMetadataDriverImpl($driver);
-            $config->setQueryCacheImpl($cache);
-            $config->setProxyDir($dic->tmp . DIRECTORY_SEPARATOR);
-            $config->setProxyNamespace('Project\Proxies');
-
-            $rebuild = $dic->registry->doctrine2->AUTO_REBUILD_PROXIES;
-            $config->setAutoGenerateProxyClasses($rebuild);
-
-            $connectionOptions = ['pdo' => $dic->getDatabase()];
-
-            return EntityManager::create($connectionOptions, $config);
+            return (new DefaultEMPlugin($dic))->init();
         });
     }
 }

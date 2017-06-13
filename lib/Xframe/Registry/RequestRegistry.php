@@ -5,6 +5,8 @@ namespace Xframe\Registry;
 /**
  * @property string $DEFAULT_VIEW
  * @property bool   $AUTO_REBUILD
+ *
+ * @package registry
  */
 final class RequestRegistry extends AbstractRegistry
 {

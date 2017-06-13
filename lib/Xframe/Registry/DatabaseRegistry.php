@@ -9,6 +9,8 @@ namespace Xframe\Registry;
  * @property int    $PORT
  * @property string $NAME
  * @property string $ENGINE
+ *
+ * @package registry
  */
 final class DatabaseRegistry extends AbstractRegistry
 {

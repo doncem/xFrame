@@ -27,6 +27,11 @@ trait Fixtures
     public function chooseDicLambda(string $lambda)
     {
         switch ($lambda) {
+            case 'database':
+                $return = $this->getMock($this->testCase, 'PDO');
+                $return->method('getAttribute')->willReturn('sqlite');
+
+                break;
             case 'registry':
                 $return = $this->getRegistryMock($this->testCase);
 
@@ -61,6 +66,10 @@ trait Fixtures
                 break;
             case 'DEFAULT_VIEW':
                 $value = 'Xframe\View\JsonView';
+
+                break;
+            case 'ENGINE':
+                $value = 'memory';
 
                 break;
             default:
@@ -119,10 +128,8 @@ trait Fixtures
         $container = $this->getMock($case, 'Xframe\Container');
 
         $registry->method('__get')->willReturn($container);
-        $registry->method('__get')->willReturn($container);
-        $registry->method('__get')->willReturn($container);
 
-        $container->method('__get')->willReturn([$this, 'chooseRegistry']);
+        $container->method('__get')->will($this->returnCallback([$this, 'chooseRegistry']));
 
         return $registry;
     }

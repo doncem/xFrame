@@ -40,6 +40,7 @@
         "twig/twig": "~v2.4"
     },
     "require-dev": {
+        "doctrine/orm": "~v2.5",
         "friendsofphp/php-cs-fixer": "dev-master",
         "phpunit/phpunit": "dev-master"
     },
