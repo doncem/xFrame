@@ -10,12 +10,14 @@ class DefaultCachePluginTest extends TestCase
 
     public function testPlugin()
     {
-        if (!\class_exists('Memcache')) {
-            $this->markTestSkipped('Memcache class required');
+        $dic = $this->getDependencyInjectionMock($this);
+
+        if (!\class_exists($dic->registry->cache->CACHE_CLASS)) {
+            $this->markTestSkipped($dic->registry->cache->CACHE_CLASS . ' class required');
         }
 
-        $plugin = new DefaultCachePlugin($this->getDependencyInjectionMock($this));
+        $plugin = new DefaultCachePlugin($dic);
 
-        $this->assertInstanceOf('Memcache', $plugin->init());
+        $this->assertInstanceOf($dic->registry->cache->CACHE_CLASS, $plugin->init());
     }
 }

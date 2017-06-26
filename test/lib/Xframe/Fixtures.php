@@ -60,6 +60,10 @@ trait Fixtures
                 $value = true;
 
                 break;
+            case 'CACHE_CLASS':
+                $value = '\\Memcached';
+
+                break;
             case 'ENABLED':
                 $value = false;
 
