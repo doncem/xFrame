@@ -2,31 +2,32 @@
 
 namespace Xframe\Plugin;
 
-use Doctrine\Common\Cache\ApcCache;
-use Doctrine\Common\Cache\ArrayCache;
-use Doctrine\Common\Cache\MemcacheCache;
 use Doctrine\ORM\Configuration;
 use Doctrine\ORM\EntityManager;
+use Xframe\Core\DependencyInjectionContainer;
 
 /**
  * @package plugin
  */
 class DefaultEMPlugin extends AbstractPlugin
 {
+    const CACHE_HELPER = 'cacheHelper';
+
+    public function __construct(DependencyInjectionContainer $dic)
+    {
+        parent::__construct($dic);
+
+        $this->dic->add(self::CACHE_HELPER, function ($dic) {
+            return (new Helper\EmCachePluginHelper($dic))->init();
+        });
+    }
+
     /**
      * @return EntityMmanager
      */
     public function init()
     {
-        if (\extension_loaded('apc')) {
-            $cache = new ApcCache();
-        } elseif ($this->dic->registry->cache->ENABLED) {
-            $cache = new MemcacheCache();
-            $cache->setMemcache($this->dic->cache);
-        } else {
-            $cache = new ArrayCache();
-        }
-
+        $cache = $this->dic->{self::CACHE_HELPER};
         $config = new Configuration();
         $config->setMetadataCacheImpl($cache);
         $driver = $config->newDefaultAnnotationDriver([
