@@ -1,5 +1,22 @@
 # Change Log
 
+## [1.1.0](https://github.com/doncem/xFrame/tree/1.1.0) (2017-06-26)
+[Full Changelog](https://github.com/doncem/xFrame/compare/1.0.1...1.1.0)
+
+**Closed issues:**
+
+- Implement table prefixes [\#7](https://github.com/doncem/xFrame/issues/7)
+- Update registry [\#11](https://github.com/doncem/xFrame/issues/11)
+- Improve Exceptions [\#9](https://github.com/doncem/xFrame/issues/9)
+
+**Merged pull requests:**
+
+- adding event manager with table prefix event [\#16](https://github.com/doncem/xFrame/pull/16) ([doncem](https://github.com/doncem))
+- Doctrine cache picker [\#15](https://github.com/doncem/xFrame/pull/15) ([doncem](https://github.com/doncem))
+- More testable code [\#14](https://github.com/doncem/xFrame/pull/14) ([doncem](https://github.com/doncem))
+- Config update [\#13](https://github.com/doncem/xFrame/pull/13) ([doncem](https://github.com/doncem))
+- Specific exceptions [\#12](https://github.com/doncem/xFrame/pull/12) ([doncem](https://github.com/doncem))
+
 ## [1.0.1](https://github.com/doncem/xFrame/tree/1.0.1) (2017-06-07)
 [Full Changelog](https://github.com/doncem/xFrame/compare/1.0.0...1.0.1)
 
