@@ -92,7 +92,7 @@ class RequestMapGenerator
                 $class = \str_replace(DIRECTORY_SEPARATOR, '\\', $class);
                 $class = \pathinfo($class, PATHINFO_FILENAME);
 
-                if ($this->analyseClass($class)) {
+                if (!$this->analyseClass($this->dic->registry->request->NAMESPACE_PREFIX . $class)) {
                     break;
                 }
             }
