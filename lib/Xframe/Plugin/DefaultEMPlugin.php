@@ -52,10 +52,7 @@ class DefaultEMPlugin extends AbstractPlugin
         $cache = $this->dic->{self::CACHE_HELPER};
         $config = new Configuration();
         $config->setMetadataCacheImpl($cache);
-        $driver = $config->newDefaultAnnotationDriver([
-            $this->dic->root . 'src',
-            $this->dic->root . 'lib'
-        ]);
+        $driver = $config->newDefaultAnnotationDriver([$this->dic->root . 'src']);
         $config->setMetadataDriverImpl($driver);
         $config->setQueryCacheImpl($cache);
         $config->setProxyDir($this->dic->tmp . DIRECTORY_SEPARATOR);
