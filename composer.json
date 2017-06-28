@@ -40,11 +40,13 @@
         "twig/twig": "~v2.4"
     },
     "require-dev": {
+        "doctrine/migrations": "~v1.5",
         "doctrine/orm": "~v2.5",
         "friendsofphp/php-cs-fixer": "dev-master",
         "phpunit/phpunit": "dev-master"
     },
     "suggest": {
+        "doctrine/migrations": "For in-built migration tool",
         "doctrine/orm": "For the use of EntityManager injected into application for you already"
     },
     "autoload": {

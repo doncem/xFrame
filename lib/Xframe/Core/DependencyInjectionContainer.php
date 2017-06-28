@@ -7,6 +7,7 @@ use Doctrine\Common\EventManager;
 use Doctrine\ORM\EntityManager;
 use Memcache;
 use PDO;
+use Symfony\Component\Console\Application;
 use Xframe\Container;
 use Xframe\Exception\ErrorHandler;
 use Xframe\Exception\ExceptionHandler;
@@ -26,6 +27,7 @@ use Xframe\Request\FrontController;
  * @property Cache $doctrineCache
  * @property EntityManager $em
  * @property EventManager $evm
+ * @property Application $migrationCLI
  *
  * @package core
  */

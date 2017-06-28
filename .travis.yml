@@ -19,6 +19,7 @@ branches:
 
 before_script:
   - composer require doctrine/orm --no-update
+  - composer require doctrine/migrations --no-update
   - composer require satooshi/php-coveralls --no-update
   - composer install --no-dev
 

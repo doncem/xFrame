@@ -9,6 +9,7 @@ use Xframe\Exception\Logger;
 use Xframe\Plugin\DefaultCachePlugin;
 use Xframe\Plugin\DefaultDatabasePlugin;
 use Xframe\Plugin\DefaultDoctrineCachePlugin;
+use Xframe\Plugin\DefaultDoctrineMigrationPlugin;
 use Xframe\Plugin\DefaultEMPlugin;
 use Xframe\Plugin\DefaultEvMPlugin;
 use Xframe\Plugin\DefaultPluginContainerPlugin;
@@ -149,6 +150,10 @@ class System extends DependencyInjectionContainer
 
         $this->add('em', function (DependencyInjectionContainer $dic) {
             return (new DefaultEMPlugin($dic))->init();
+        });
+
+        $this->add('migrationCLI', function (DependencyInjectionContainer $dic) {
+            return (new DefaultDoctrineMigrationPlugin($dic))->init();
         });
     }
 }

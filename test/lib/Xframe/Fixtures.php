@@ -36,6 +36,11 @@ trait Fixtures
                 $return = $this->getMock($this->testCase, 'Doctrine\Common\Cache\Cache');
 
                 break;
+            case 'em':
+                $return = $this->getMock($this->testCase, 'Doctrine\ORM\EntityManager');
+                $return->method('getConnection')->willReturn($this->getMock($this->testCase, 'Doctrine\DBAL\Connection'));
+
+                break;
             case 'registry':
                 $return = $this->getRegistryMock($this->testCase);
 
