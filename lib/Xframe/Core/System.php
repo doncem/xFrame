@@ -8,6 +8,7 @@ use Xframe\Exception\ExceptionOutputter;
 use Xframe\Exception\Logger;
 use Xframe\Plugin\DefaultCachePlugin;
 use Xframe\Plugin\DefaultDatabasePlugin;
+use Xframe\Plugin\DefaultDoctrineCachePlugin;
 use Xframe\Plugin\DefaultEMPlugin;
 use Xframe\Plugin\DefaultEvMPlugin;
 use Xframe\Plugin\DefaultPluginContainerPlugin;
@@ -138,6 +139,10 @@ class System extends DependencyInjectionContainer
      */
     private function setDefaultDoctrine()
     {
+        $this->add('doctrineCache', function (DependencyInjectionContainer $dic) {
+            return (new DefaultDoctrineCachePlugin($dic))->init();
+        });
+
         $this->add('evm', function (DependencyInjectionContainer $dic) {
             return (new DefaultEvMPlugin($dic))->init();
         });

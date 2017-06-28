@@ -4,30 +4,18 @@ namespace Xframe\Plugin;
 
 use Doctrine\ORM\Configuration;
 use Doctrine\ORM\EntityManager;
-use Xframe\Core\DependencyInjectionContainer;
 
 /**
  * @package plugin
  */
 class DefaultEMPlugin extends AbstractPlugin
 {
-    const CACHE_HELPER = 'cacheHelper';
-
-    public function __construct(DependencyInjectionContainer $dic)
-    {
-        parent::__construct($dic);
-
-        $this->dic->add(self::CACHE_HELPER, function ($dic) {
-            return (new Helper\EmCachePluginHelper($dic))->init();
-        });
-    }
-
     /**
      * @return EntityMmanager
      */
     public function init()
     {
-        $cache = $this->dic->{self::CACHE_HELPER};
+        $cache = $this->dic->doctrineCache;
         $config = new Configuration();
         $config->setMetadataCacheImpl($cache);
         $driver = $config->newDefaultAnnotationDriver([$this->dic->root . 'src']);

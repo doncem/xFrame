@@ -1,16 +1,15 @@
 <?php
 
-namespace Xframe\Plugin\Helper;
+namespace Xframe\Plugin;
 
 use Doctrine\Common\Cache\ApcCache;
 use Doctrine\Common\Cache\ArrayCache;
 use Doctrine\Common\Cache\Cache;
-use Xframe\Plugin\AbstractPlugin;
 
 /**
  * @package plugin
  */
-class EmCachePluginHelper extends AbstractPlugin
+class DefaultDoctrineCachePlugin extends AbstractPlugin
 {
     /**
      * @return Cache
