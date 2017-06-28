@@ -28,3 +28,15 @@ $ doctrine orm:schema-tool:create
 ## More on Doctrine2
 
 [Doctrine2 Documentation](http://doctrine-project.org)
+
+## Migration
+
+Since version `1.2.0`, Doctrine migrations are available to use in project.
+In case you are using custom namespace prefix, you probably will need to override the cli script.
+This is also available for you:
+
+- write your own `bin/migration.script`
+  - example can be found in `vendor/linusnorton/xFrame/bin/migration`
+- include a file `vendor/linusnorton/xFrame/bin/migration-cli`
+
+More help: just run `./vendor/bin/migration`
