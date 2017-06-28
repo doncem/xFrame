@@ -88,6 +88,10 @@ trait Fixtures
                 $value = 'memory';
 
                 break;
+            case 'PREFIX':
+                $value = 'test';
+
+                break;
             default:
                 $value = null;
 

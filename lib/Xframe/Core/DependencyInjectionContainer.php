@@ -2,6 +2,7 @@
 
 namespace Xframe\Core;
 
+use Doctrine\Common\EventManager;
 use Doctrine\ORM\EntityManager;
 use Memcache;
 use PDO;
@@ -22,6 +23,7 @@ use Xframe\Request\FrontController;
  * @property Container $plugin
  * @property Memcache $cache
  * @property EntityManager $em
+ * @property EventManager $evm
  *
  * @package core
  */

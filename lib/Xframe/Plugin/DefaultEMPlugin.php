@@ -2,10 +2,8 @@
 
 namespace Xframe\Plugin;
 
-use Doctrine\Common\EventManager;
 use Doctrine\ORM\Configuration;
 use Doctrine\ORM\EntityManager;
-use Doctrine\ORM\Events;
 use Xframe\Core\DependencyInjectionContainer;
 
 /**
@@ -14,7 +12,6 @@ use Xframe\Core\DependencyInjectionContainer;
 class DefaultEMPlugin extends AbstractPlugin
 {
     const CACHE_HELPER = 'cacheHelper';
-    const TABLE_PREFIX = 'tablePrefix';
 
     public function __construct(DependencyInjectionContainer $dic)
     {
@@ -23,25 +20,6 @@ class DefaultEMPlugin extends AbstractPlugin
         $this->dic->add(self::CACHE_HELPER, function ($dic) {
             return (new Helper\EmCachePluginHelper($dic))->init();
         });
-        $this->dic->add(self::TABLE_PREFIX, function ($dic) {
-            return new Helper\EmTablePrefixPluginHelper($dic->registry->database->PREFIX . '_');
-        });
-    }
-
-    /**
-     * @return EventManager|null
-     */
-    private function getEventManager()
-    {
-        if (\mb_strlen($this->dic->registry->database->PREFIX) > 0) {
-            $evm = new EventManager();
-            $tablePrefix = $this->dic->{self::TABLE_PREFIX};
-            $evm->addEventListener(Events::loadClassMetadata, $tablePrefix);
-        } else {
-            $evm = null;
-        }
-
-        return $evm;
     }
 
     /**
@@ -63,6 +41,6 @@ class DefaultEMPlugin extends AbstractPlugin
 
         $connectionOptions = ['pdo' => $this->dic->database];
 
-        return EntityManager::create($connectionOptions, $config, $this->getEventManager());
+        return EntityManager::create($connectionOptions, $config, $this->dic->evm);
     }
 }
