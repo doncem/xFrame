@@ -1,0 +1,13 @@
+#!/usr/bin/env php
+<?php
+
+$migration = require 'migration-cli';
+
+/*
+use Doctrine\Common\Annotations\AnnotationRegistry;
+
+// for custom classes to autoload
+AnnotationRegistry::registerFile($root . 'src' . DIRECTORY_SEPARATOR . 'MyModel.php');
+*/
+
+$migration->run();

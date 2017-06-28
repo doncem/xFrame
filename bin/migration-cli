@@ -1,0 +1,16 @@
+#!/usr/bin/env php
+<?php
+
+$vendorDir = __DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR;
+$root = $vendorDir . '..' . DIRECTORY_SEPARATOR;
+$loader = require $vendorDir. 'autoload.php';
+
+$config = \filter_input(INPUT_SERVER, 'CONFIG') ?: 'live';
+
+use Xframe\Core\System;
+
+$system = new System($root, $config);
+
+$system->boot();
+
+return $system->migration;
