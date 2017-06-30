@@ -39,4 +39,13 @@ This is also available for you:
   - example can be found in `vendor/linusnorton/xFrame/bin/migration`
 - include a file `vendor/linusnorton/xFrame/bin/migration-cli`
 
+In project root you should also have migration configuration file `migrations.yml`:
+
+```yaml
+name: xFrame Doctrine Migrations
+migrations_namespace: Migration
+table_name: doctrine_migration_version
+migrations_directory: doctrine-migration
+```
+
 More help: just run `./vendor/bin/migration`
