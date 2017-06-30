@@ -3,9 +3,6 @@
 namespace Xframe;
 
 use PHPUnit\Framework\TestCase;
-use Xframe\Core\DependencyInjectionContainer;
-use Xframe\Plugin\DefaultEMPlugin;
-use Xframe\Plugin\Helper\EmCachePluginHelper;
 use Xframe\Request\Controller;
 use Xframe\Request\Request;
 
@@ -15,11 +12,6 @@ trait Fixtures
      * @var TestCase
      */
     private $testCase;
-
-    /**
-     * @var DependencyInjectionContainer
-     */
-    private $dic;
 
     private function getMock(TestCase $case, string $classname)
     {
@@ -35,13 +27,18 @@ trait Fixtures
     public function chooseDicLambda(string $lambda)
     {
         switch ($lambda) {
-            case DefaultEMPlugin::CACHE_HELPER:
-                $return = (new EmCachePluginHelper($this->dic))->init();
-
-                break;
             case 'database':
                 $return = $this->getMock($this->testCase, 'PDO');
                 $return->method('getAttribute')->willReturn('sqlite');
+
+                break;
+            case 'doctrineCache':
+                $return = $this->getMock($this->testCase, 'Doctrine\Common\Cache\Cache');
+
+                break;
+            case 'em':
+                $return = $this->getMock($this->testCase, 'Doctrine\ORM\EntityManager');
+                $return->method('getConnection')->willReturn($this->getMock($this->testCase, 'Doctrine\DBAL\Connection'));
 
                 break;
             case 'registry':
@@ -88,6 +85,10 @@ trait Fixtures
                 $value = 'memory';
 
                 break;
+            case 'PREFIX':
+                $value = 'test';
+
+                break;
             default:
                 $value = null;
 
@@ -123,11 +124,11 @@ trait Fixtures
     {
         $this->testCase = $case;
 
-        $this->dic = $this->createMock('Xframe\Core\DependencyInjectionContainer');
+        $dic = $this->createMock('Xframe\Core\DependencyInjectionContainer');
 
-        $this->dic->method('__get')->will($this->returnCallback([$this, 'chooseDicLambda']));
+        $dic->method('__get')->will($this->returnCallback([$this, 'chooseDicLambda']));
 
-        return $this->dic;
+        return $dic;
     }
 
     public function getPrefilterMock(TestCase $case)
