@@ -13,4 +13,4 @@ $system = new System($root, $config);
 
 $system->boot();
 
-return $system->migration;
+return $system->migrationCLI;
