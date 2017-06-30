@@ -1,5 +1,12 @@
 # Change Log
 
+## [1.2.0](https://github.com/doncem/xFrame/tree/1.2.0) (2017-06-30)
+[Full Changelog](https://github.com/doncem/xFrame/compare/1.1.1...1.2.0)
+
+**Merged pull requests:**
+
+- Doctrine extension [\#18](https://github.com/doncem/xFrame/pull/18) ([doncem](https://github.com/doncem))
+
 ## [1.1.1](https://github.com/doncem/xFrame/tree/1.1.1) (2017-06-27)
 [Full Changelog](https://github.com/doncem/xFrame/compare/1.1.0...1.1.1)
 
