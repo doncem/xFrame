@@ -56,13 +56,29 @@ class Registry extends Container
             $settings = [];
         }
 
-        return new self([
-            'request' => new RequestRegistry($settings['request'] ?? []),
-            'database' => new DatabaseRegistry($settings['database'] ?? []),
-            'doctrine2' => new Doctrine2Registry($settings['doctrine2'] ?? []),
-            'twig' => new TwigRegistry($settings['twig'] ?? []),
-            'cache' => new CacheRegistry($settings['cache'] ?? []),
-            'plugin' => new Container($settings['plugin'] ?? [])
-        ]);
+        $request = $settings['request'] ?? [];
+        $database = $settings['database'] ?? [];
+        $doctrine = $settings['doctrine2'] ?? [];
+        $twig = $settings['twig'] ?? [];
+        $cache = $settings['cache'] ?? [];
+        $plugin = $settings['plugin'] ?? [];
+
+        unset(
+            $settings['request'],
+            $settings['database'],
+            $settings['doctrine2'],
+            $settings['twig'],
+            $settings['cache'],
+            $settings['plugin']
+        );
+
+        return new self(\array_merge([
+            'request' => new RequestRegistry($request),
+            'database' => new DatabaseRegistry($database),
+            'doctrine2' => new Doctrine2Registry($doctrine),
+            'twig' => new TwigRegistry($twig),
+            'cache' => new CacheRegistry($cache),
+            'plugin' => new Container($plugin)
+        ], $settings));
     }
 }

@@ -181,7 +181,8 @@ class RequestMapGenerator
             $customParams[$customParameter->name] = $customParameter->value;
         }
 
-        $newLine = PHP_EOL . '    ';
+        $tab = '    ';
+        $newLine = PHP_EOL . $tab;
         $fileContents = '<?php' . PHP_EOL . PHP_EOL;
         $fileContents .= '// Automatically generated code, do not edit.' . PHP_EOL;
 
@@ -199,10 +200,11 @@ class RequestMapGenerator
 
         /* @var $param Annotation\Parameter */
         foreach ($params as $param) {
-            $fileContents .= 'new Xframe\Request\Parameter(\'' . $param->name . '\',' . $newLine;
-            $fileContents .= $param->validator ? 'new ' . $param->validator . ',' . $newLine : "null,{$newLine}";
-            $fileContents .= \var_export($param->required, true) . ",{$newLine}";
-            $fileContents .= \var_export($param->default, true) . '),';
+            $fileContents .= $tab . 'new Xframe\Request\Parameter(\'' . $param->name . '\',' . $newLine;
+            $fileContents .= $tab . $tab . ($param->validator ? 'new ' . $param->validator . ',' . $newLine : "null,{$newLine}");
+            $fileContents .= $tab . $tab . \var_export($param->required, true) . ",{$newLine}";
+            $fileContents .= $tab . $tab . (\defined($param->default) ? $param->default : \var_export($param->default, true)) . $newLine;
+            $fileContents .= $tab . '),';
         }
 
         $fileContents .= "],{$newLine}";
