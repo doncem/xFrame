@@ -1,5 +1,11 @@
 # Change Log
 
+## [1.2.2](https://github.com/doncem/xFrame/tree/1.2.2) (2017-07-01)
+[Full Changelog](https://github.com/doncem/xFrame/compare/1.2.1...1.2.2)
+**Merged pull requests:**
+
+- Registry and Request generator fixes [\#20](https://github.com/doncem/xFrame/pull/20) ([doncem](https://github.com/doncem))
+
 ## [1.2.1](https://github.com/doncem/xFrame/tree/1.2.1) (2017-06-30)
 [Full Changelog](https://github.com/doncem/xFrame/compare/1.2.0...1.2.1)
 
