@@ -30,7 +30,7 @@ class Parameter
     public $default;
 
     public function __construct(string $name,
-                                Validator $validator = null,
+                                string $validator = null,
                                 bool $required = false,
                                 $default = null)
     {
