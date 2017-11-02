@@ -1,5 +1,12 @@
 # Change Log
 
+## [1.2.3](https://github.com/doncem/xFrame/tree/1.2.3) (2017-11-02)
+[Full Changelog](https://github.com/doncem/xFrame/compare/1.2.2...1.2.3)
+
+**Closed issues:**
+
+- Controller improvement for Prefilters [\#21](https://github.com/doncem/xFrame/issues/21)
+
 ## [1.2.2](https://github.com/doncem/xFrame/tree/1.2.2) (2017-07-01)
 [Full Changelog](https://github.com/doncem/xFrame/compare/1.2.1...1.2.2)
 **Merged pull requests:**
