@@ -200,4 +200,9 @@ class Controller
     protected function init()
     {
     }
+
+    public function getView()
+    {
+        return $this->view;
+    }
 }
