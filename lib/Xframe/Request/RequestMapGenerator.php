@@ -194,8 +194,14 @@ class RequestMapGenerator
         $fileContents .= "\$this->dic,{$newLine}";
         $fileContents .= "\$request,{$newLine}";
         $fileContents .= \var_export($method->name, true) . ",{$newLine}";
-        $fileContents .= "new {$view}(\$this->dic->registry, \$this->dic->root, \$this->dic->tmp, ";
-        $fileContents .= \var_export($template, true) . ", \$request->debug),{$newLine}";
+
+        if ('JsonView' === \mb_substr($view, -8)) {
+            $fileContents .= "new {$view}(),{$newLine}";
+        } else {
+            $fileContents .= "new {$view}(\$this->dic->registry, \$this->dic->root, \$this->dic->tmp, ";
+            $fileContents .= \var_export($template, true) . ", \$request->debug),{$newLine}";
+        }
+
         $fileContents .= "[{$newLine}";
 
         /* @var $param Annotation\Parameter */
