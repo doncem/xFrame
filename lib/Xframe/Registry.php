@@ -79,6 +79,8 @@ class Registry extends Container
             'twig' => new TwigRegistry($twig),
             'cache' => new CacheRegistry($cache),
             'plugin' => new Container($plugin)
-        ], $settings));
+        ], \array_map(function($item) {
+            return new Container($item);
+        }, $settings)));
     }
 }
