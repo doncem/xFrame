@@ -83,6 +83,6 @@ class Result
      */
     public function isValid()
     {
-        return $this->code === self::SUCCESS;
+        return self::SUCCESS === $this->code;
     }
 }

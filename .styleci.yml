@@ -1,0 +1,47 @@
+preset: symfony
+
+risky: true
+
+enabled:
+  - concat_with_spaces
+  - strict
+  - short_array_syntax
+  - class_keyword_remove
+  - combine_consecutive_issets
+  - combine_consecutive_unsets
+  - linebreak_after_opening_tag
+  - mb_str_functions
+  - native_function_invocation
+  - no_unreachable_default_argument_value
+  - no_useless_return
+  - alpha_ordered_imports
+  - phpdoc_add_missing_param_annotation
+  - phpdoc_order
+  - pow_to_exponentiation
+  - strict_param
+  - ternary_to_null_coalescing
+
+disabled:
+  - blank_line_after_opening_tag
+  - concat_without_spaces
+  - declare_equal_normalize
+  - no_blank_lines_after_class_opening
+  - no_leading_namespace_whitespace
+  - phpdoc_annotation_without_dot
+  - phpdoc_no_package
+  - self_accessor
+  - silenced_deprecation_error
+  - trailing_comma_in_multiline_array
+
+finder:
+  name:
+    - "*.php"
+  path:
+    - "."
+  not-path:
+    - "nbproject"
+    - "report"
+    - "tmp"
+    - "vendor"
+  depth:
+    - "< 10"

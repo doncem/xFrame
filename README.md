@@ -1,5 +1,6 @@
 [![Build Status](https://travis-ci.org/doncem/xFrame.svg?branch=master)](https://travis-ci.org/doncem/xFrame)
 [![Coverage Status](https://coveralls.io/repos/github/doncem/xFrame/badge.svg?branch=master)](https://coveralls.io/github/doncem/xFrame?branch=master)
+[![StyleCI](https://styleci.io/repos/89096514/shield?branch=master)](https://styleci.io/repos/89096514)
 [![GitHub version](https://badge.fury.io/gh/doncem%2FxFrame.svg)](https://badge.fury.io/gh/doncem%2FxFrame)
 ![](https://reposs.herokuapp.com/?path=doncem/xFrame)
 
