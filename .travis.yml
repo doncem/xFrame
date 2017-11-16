@@ -23,7 +23,7 @@ branches:
 
 before_install:
   - composer config --global github-oauth.github.com "$GITHUB_TOKEN"
-  - composer remove phpunit/phpunit
+  - composer remove --dev --no-update phpunit/phpunit
 
 install:
   - composer install --no-dev
