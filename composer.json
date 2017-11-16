@@ -40,9 +40,8 @@
         "twig/twig": "~v2.4"
     },
     "require-dev": {
-        "doctrine/migrations": "~v1.5",
+        "doctrine/migrations": "~v1.6",
         "doctrine/orm": "~v2.5",
-        "friendsofphp/php-cs-fixer": "dev-master",
         "phpunit/phpunit": "dev-master"
     },
     "suggest": {
