@@ -24,14 +24,12 @@ branches:
 before_install:
   - composer config --global github-oauth.github.com "$GITHUB_TOKEN"
   - composer remove --dev --no-update phpunit/phpunit
-
-install:
-  - composer install --no-dev
-
-before_script:
   - composer require doctrine/orm --no-update
   - composer require doctrine/migrations --no-update
   - composer require satooshi/php-coveralls --no-update
+
+install:
+  - composer install --no-dev
 
 after_script:
   - php vendor/bin/coveralls
