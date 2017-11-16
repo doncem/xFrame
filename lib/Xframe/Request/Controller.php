@@ -169,7 +169,7 @@ class Controller
     protected function getResponseFromCache()
     {
         //see if we can grab it from the cache
-        if ($this->cacheEnabled && $this->cacheLength !== false) {
+        if ($this->cacheEnabled && false !== $this->cacheLength) {
             return $this->dic->cache->get($this->request->hash());
         }
 

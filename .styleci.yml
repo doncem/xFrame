@@ -29,6 +29,7 @@ disabled:
   - no_leading_namespace_whitespace
   - phpdoc_annotation_without_dot
   - phpdoc_no_package
+  - self_accessor
   - silenced_deprecation_error
   - trailing_comma_in_multiline_array
 
