@@ -4,9 +4,11 @@ language: php
 php:
   - 7.0
   - 7.1
+  - 7.2
 
 env:
   - CONFIG=dev
+  - secure: "whXi8aGCbEPQeCIgvaBYaVGJGjBfHuYN4tX6z+Xf4JK6juG7VDsMgHs4HzqcxFHHUwxzo+zmhvuLykTrQ437w20N85GInlqrVj0hSwjJHhrVy2OfyIfwHKtzsF+4Z4NhByOhKvm2KIzlrdTUbukZt+dYxHJKv68nSS+rI0sbVdI6WGvBZ5ETJLEXXKsO2EVJWHELu7FYn+ephMoVPjP0JaF7DoUkrT3PS0QTZf9qvEF559hkjhOtNBt4O/HIIQWeLnwJTjyI7LR60gR8cHG3+F+aWi03oWpjw37ZQ2ZpRBiU/Wkljp99mbRpvs9vIB9CY65x6Vewtxvak4PC27sjV1LcfUEm3fuKWwzt4lZlsU/i4vwOJbq0VPVurQgJqSXEIH1ek3R8I6GT0DyjVEPPAaqalyB301vSuLJiFRWPQQfBHUtOR+Y7QZJFXnJcdGRhz3oek2M00Aii+PV0/EsUBRUMuzzT1P+RZr7+LIgMs1scLDeBuD1Umdiv3KZ9zVv07ITazMyGnBDcCij25y+70o0kespSCxv4pinIm/Th5QXiahz4MfU5Ayx3ZyXrLM0ZFe/ju8wUJQADzzR82CIkc9hlZN8/mXrM0Dzvm4TuYfvnQrgr4p7w+NUIkUDTIiaSToc1ZzCrGQuhrH8To4AgqeaNasJHMJVFdpYr8qyY5l8="
 
 cache:
   directories:
@@ -17,11 +19,16 @@ branches:
     - master
     - /^[0-9]+\.[0-9]+\.[0-9]+$/
 
+before_install:
+  - composer config --global github-oauth.github.com "$GITHUB_TOKEN"
+
+install:
+  - composer install --no-dev
+
 before_script:
   - composer require doctrine/orm --no-update
   - composer require doctrine/migrations --no-update
   - composer require satooshi/php-coveralls --no-update
-  - composer install --no-dev
 
 after_script:
   - php vendor/bin/coveralls
