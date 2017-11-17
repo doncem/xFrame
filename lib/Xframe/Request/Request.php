@@ -64,7 +64,9 @@ class Request extends Container
         foreach ($map as $i => $parameter) {
             // if there is no key value for this param, throw an exception
             if ($parameter->isRequired() && !isset($this->mappedParameters[$i])) {
-                \trigger_error("Parameter #{$i}({$parameter->getName()}) has not been provided and is required", E_USER_ERROR);
+                \trigger_error('Parameter #{' . $i . '(' . \addslashes($parameter->getName()) .
+                    ') has not been provided and is required', E_USER_ERROR
+                );
             }
 
             // if there is no value, try to get the default value

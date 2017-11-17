@@ -22,9 +22,9 @@ class ExceptionOutputter implements SplObserver
     public function update(SplSubject $subject)
     {
         if (PHP_SAPI === 'cli') {
-            echo $subject->getLastException() . PHP_EOL;
+            echo \addslashes($subject->getLastException()) . PHP_EOL;
         } else {
-            echo '<pre>' . $subject->getLastException() . '</pre>';
+            echo '<pre>' . \addslashes($subject->getLastException()) . '</pre>';
         }
     }
 }

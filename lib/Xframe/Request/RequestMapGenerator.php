@@ -116,7 +116,7 @@ class RequestMapGenerator
             $reflection = new ReflectionClass($class);
         } catch (Exception $ex) {
             if (PHP_SAPI === 'cli') {
-                echo $ex->getMessage() . PHP_EOL;
+                echo \addslashes($ex->getMessage()) . PHP_EOL;
             }
 
             return false;
@@ -209,7 +209,8 @@ class RequestMapGenerator
             $fileContents .= $tab . 'new Xframe\Request\Parameter(\'' . $param->name . '\',' . $newLine;
             $fileContents .= $tab . $tab . ($param->validator ? 'new ' . $param->validator . ',' . $newLine : "null,{$newLine}");
             $fileContents .= $tab . $tab . \var_export($param->required, true) . ",{$newLine}";
-            $fileContents .= $tab . $tab . (\defined($param->default) ? $param->default : \var_export($param->default, true)) . $newLine;
+            $fileContents .= $tab . $tab .
+                (\defined($param->default) ? $param->default : \var_export($param->default, true)) . $newLine;
             $fileContents .= $tab . '),';
         }
 
@@ -228,7 +229,7 @@ class RequestMapGenerator
         try {
             \file_put_contents($filename, $fileContents);
         } catch (Throwable $e) {
-            \trigger_error('Could not create request cache file: ' . $filename, E_USER_ERROR);
+            \trigger_error('Could not create request cache file: ' . \addslashes($filename), E_USER_ERROR);
         }
     }
 }
