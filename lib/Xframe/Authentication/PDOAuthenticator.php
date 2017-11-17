@@ -98,9 +98,9 @@ class PDOAuthenticator implements Authenticator
             $stmt->execute();
 
             return $stmt->fetchAll(PDO::FETCH_CLASS, 'stdClass');
-        } else {
-            throw new PDOException('Could not prepare statement');
         }
+
+        throw new PDOException('Could not prepare statement');
     }
 
     /**
@@ -111,11 +111,11 @@ class PDOAuthenticator implements Authenticator
      */
     private function processDbResult($result, $credential)
     {
-        $num_results = \count($result);
+        $numResults = \count($result);
 
-        if (0 === $num_results) {
+        if (0 === $numResults) {
             $this->result->setCode(Result::IDENTITY_NOT_FOUND);
-        } elseif (1 < $num_results) {
+        } elseif (1 < $numResults) {
             $this->result->setCode(Result::AMBIGUOUS_IDENTITY);
         } elseif ($result[0]->{$this->credentialColumn} !== $credential) {
             $this->result->setCode(Result::INVALID_CREDENTIAL);

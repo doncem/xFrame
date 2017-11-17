@@ -12,7 +12,8 @@ class PhpViewTest extends TestCase
     {
         $view = new PhpView(
             $this->getRegistryMock($this),
-            __DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR,
+            __DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . '..' .
+                DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR,
             '',
             'test'
         );

@@ -91,6 +91,9 @@ class Parameter
         }
 
         // otherwise there was an error validating
-        \trigger_error('Value \'' . $value . '\' is not valid for parameter \'' . $this->name . '\' using validator \'' . \get_class($this->validator) . '\'.', E_USER_ERROR);
+        \trigger_error('Value \'' .
+            $value . '\' is not valid for parameter \'' . $this->name . '\' using validator \'' .
+            \addslashes(\get_class($this->validator)) . '\'.', E_USER_ERROR
+        );
     }
 }

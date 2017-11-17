@@ -55,7 +55,7 @@ class System extends DependencyInjectionContainer
         $this->getExceptionHandler()->attach(new Logger());
         $this->getExceptionHandler()->attach(new ExceptionOutputter());
 
-        if ($this->registry->cache->ENABLED && \class_exists($this->registry->cache->CACHE_CLASS)) {
+        if (\class_exists($this->registry->cache->CACHE_CLASS)) {
             $this->getDefaultCache();
         } else {
             $this->registry->cache->ENABLED = false;
