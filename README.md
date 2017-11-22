@@ -3,6 +3,7 @@
 [![StyleCI](https://styleci.io/repos/89096514/shield?branch=master)](https://styleci.io/repos/89096514)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/535f228f40bb45e1ab086d8bc1b9655e)](https://www.codacy.com/app/doncem/xFrame)
 [![Codacy Badge](https://api.codacy.com/project/badge/Coverage/535f228f40bb45e1ab086d8bc1b9655e)](https://www.codacy.com/app/doncem/xFrame)
+[![Dependency Status](https://gemnasium.com/badges/github.com/doncem/xFrame.svg)](https://gemnasium.com/github.com/doncem/xFrame)
 [![GitHub version](https://badge.fury.io/gh/doncem%2FxFrame.svg)](https://badge.fury.io/gh/doncem%2FxFrame)
 ![](https://reposs.herokuapp.com/?path=doncem/xFrame)
 
