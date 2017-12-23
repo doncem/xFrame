@@ -15,9 +15,8 @@ trait Fixtures
 
     private function getMock(TestCase $case, string $classname)
     {
-        $mock = new \PHPUnit_Framework_MockObject_MockBuilder($case, $classname);
-
-        return $mock->disableOriginalConstructor()
+        return $case->getMockBuilder($classname)
+            ->disableOriginalConstructor()
             ->disableOriginalClone()
             ->disableArgumentCloning()
             ->disallowMockingUnknownTypes()
