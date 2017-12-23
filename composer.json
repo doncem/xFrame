@@ -41,8 +41,8 @@
     },
     "require-dev": {
         "doctrine/migrations": "~v1.6",
-        "doctrine/orm": "~v2.5",
-        "phpunit/phpunit": "dev-master"
+        "doctrine/orm": "~v2.6",
+        "phpunit/phpunit": "~6.5"
     },
     "suggest": {
         "doctrine/migrations": "For in-built migration tool",
