@@ -52,6 +52,11 @@ class TwigView extends TemplateView
         }
     }
 
+    public function setTemplate($template)
+    {
+        $this->template = $template . $this->viewExtension;
+    }
+
     /**
      * Use Twig to generate some HTML.
      *
