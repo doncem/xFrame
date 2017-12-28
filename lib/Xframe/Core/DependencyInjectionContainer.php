@@ -17,6 +17,12 @@ use Xframe\Request\FrontController;
 /**
  * Used to store the applications dependencies.
  *
+ * @property string $root
+ * @property string $tmp
+ * @property string $config
+ * @property bool $isDev
+ * @property bool $isLive
+ * @property bool $isTest
  * @property ErrorHandler $errorHandler
  * @property ExceptionHandler $exceptionHandler
  * @property FrontController $frontController
