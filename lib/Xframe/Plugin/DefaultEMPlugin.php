@@ -2,8 +2,10 @@
 
 namespace Xframe\Plugin;
 
-use Doctrine\ORM\Configuration;
+use Doctrine\Common\Annotations\AnnotationReader;
 use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\Mapping\Driver\AnnotationDriver;
+use Doctrine\ORM\Tools\Setup;
 
 /**
  * @package plugin
@@ -15,20 +17,24 @@ class DefaultEMPlugin extends AbstractPlugin
      */
     public function init()
     {
+        $paths = [\realpath($this->dic->root . 'src')];
+        $isDevMode = $this->dic->isDev;
+
+        $reader = new AnnotationReader();
+        $driver = new AnnotationDriver($reader, $paths);
+
         $cache = $this->dic->doctrineCache;
-        $config = new Configuration();
+
+        $config = Setup::createAnnotationMetadataConfiguration($paths, $isDevMode);
+        $config->setAutoGenerateProxyClasses($this->dic->registry->doctrine2->AUTO_REBUILD_PROXIES);
         $config->setMetadataCacheImpl($cache);
-        $driver = $config->newDefaultAnnotationDriver([$this->dic->root . 'src']);
         $config->setMetadataDriverImpl($driver);
-        $config->setQueryCacheImpl($cache);
         $config->setProxyDir($this->dic->tmp . DIRECTORY_SEPARATOR);
         $config->setProxyNamespace('Project\Proxies');
+        $config->setQueryCacheImpl($cache);
 
-        $rebuild = $this->dic->registry->doctrine2->AUTO_REBUILD_PROXIES;
-        $config->setAutoGenerateProxyClasses($rebuild);
+        $conn = ['pdo' => $this->dic->database];
 
-        $connectionOptions = ['pdo' => $this->dic->database];
-
-        return EntityManager::create($connectionOptions, $config, $this->dic->evm);
+        return EntityManager::create($conn, $config, $this->dic->evm);
     }
 }

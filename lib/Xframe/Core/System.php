@@ -33,15 +33,20 @@ class System extends DependencyInjectionContainer
         parent::__construct([
             'root' => $root,
             'tmp' => $root . 'tmp' . DIRECTORY_SEPARATOR,
-            'configFilename' => 'config' . DIRECTORY_SEPARATOR . $config . '.ini',
+            'config' => $config,
+            'isDev' => 'dev' === $config,
+            'isLive' => 'live' === $config,
+            'isTest' => 'test' === $config
         ]);
+
+        $configFilename = 'config' . DIRECTORY_SEPARATOR . $config . '.ini';
 
         $this->setDefaultDatabase();
         $this->setDefaultDoctrine();
         $this->setDefaultErrorHandler();
         $this->setDefaultExceptionHandler();
         $this->setDefaultFrontController();
-        $this->setDefaultRegistry($this->configFilename, $this->root);
+        $this->setDefaultRegistry($configFilename);
         $this->setDefaultPluginContainer();
     }
 
@@ -96,12 +101,11 @@ class System extends DependencyInjectionContainer
      * Set the lambda for registry.
      *
      * @param string $filename
-     * @param string $context
      */
-    private function setDefaultRegistry(string $filename, string $context)
+    private function setDefaultRegistry(string $filename)
     {
-        $this->add('registry', function (DependencyInjectionContainer $dic) use ($filename, $context) {
-            return Registry::load($filename, $context);
+        $this->add('registry', function (DependencyInjectionContainer $dic) use ($filename) {
+            return Registry::load($filename, $dic->root);
         });
     }
 
