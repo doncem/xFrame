@@ -2,8 +2,10 @@
 
 namespace Xframe\Plugin;
 
-use Doctrine\ORM\Configuration;
+use Doctrine\Common\Annotations\AnnotationReader;
 use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\Mapping\Driver\AnnotationDriver;
+use Doctrine\ORM\Tools\Setup;
 
 /**
  * @package plugin
@@ -15,7 +17,7 @@ class DefaultEMPlugin extends AbstractPlugin
      */
     public function init()
     {
-        $paths = [realpath($this->dic->root . 'src')];
+        $paths = [\realpath($this->dic->root . 'src')];
         $isDevMode = $this->dic->isDev;
 
         $reader = new AnnotationReader();
