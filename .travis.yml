@@ -2,8 +2,6 @@ sudo: false
 language: php
 
 php:
-  - 7.0
-  - 7.1
   - 7.2
 
 env:
@@ -27,12 +25,12 @@ before_install:
   - composer remove --dev --no-update phpunit/phpunit
   - composer require doctrine/orm --no-update
   - composer require doctrine/migrations --no-update
-  - composer require satooshi/php-coveralls --no-update
+  - composer require php-coveralls/php-coveralls --no-update
   - composer require codacy/coverage --no-update
 
 install:
-  - composer install --no-dev
+  - composer update --no-dev
 
 after_script:
-  - php vendor/bin/coveralls
+  - php vendor/bin/php-coveralls
   - php vendor/bin/codacycoverage clover report/coverage-clover/clover.xml
