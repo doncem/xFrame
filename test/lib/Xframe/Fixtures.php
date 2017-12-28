@@ -40,6 +40,11 @@ trait Fixtures
                 $return->method('getConnection')->willReturn($this->getMock($this->testCase, 'Doctrine\DBAL\Connection'));
 
                 break;
+
+            case 'isDev':
+                $return = false;
+
+                break;
             case 'registry':
                 $return = $this->getRegistryMock($this->testCase);
 
