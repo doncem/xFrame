@@ -13,7 +13,10 @@ namespace Xframe\Registry;
 final class CacheRegistry extends AbstractRegistry
 {
     const CACHE_CLASS = '\\Memcahced';
+
     const ENABLED = false;
+
     const HOST = 'localhost';
+
     const PORT = 11211;
 }

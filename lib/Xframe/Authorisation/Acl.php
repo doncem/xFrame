@@ -10,7 +10,9 @@ namespace Xframe\Authorisation;
 class Acl
 {
     protected $role = [];
+
     protected $resource = [];
+
     protected $rule = [];
 
     /**

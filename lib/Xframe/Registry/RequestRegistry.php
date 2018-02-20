@@ -12,6 +12,8 @@ namespace Xframe\Registry;
 final class RequestRegistry extends AbstractRegistry
 {
     const DEFAULT_VIEW = '\\Xframe\\View\\TwigView';
+
     const AUTO_REBUILD = true;
+
     const NAMESPACE_PREFIX = '';
 }

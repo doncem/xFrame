@@ -8,7 +8,9 @@ namespace Xframe\View;
 abstract class TemplateView extends View
 {
     protected $template;
+
     protected $viewDirectory;
+
     private $viewExtension;
 
     /**

@@ -13,12 +13,17 @@ use Xframe\Container;
 class Request extends Container
 {
     private $requestedResource;
+
     private $mappedParameters;
 
     public $server;
+
     public $https;
+
     public $cli;
+
     public $files;
+
     public $cookie;
 
     /**

@@ -10,10 +10,15 @@ namespace Xframe\Authentication;
 class Result
 {
     const SUCCESS = 1;
+
     const NOT_INITILISED = 0;
+
     const GENERAL_FAILURE = -1;
+
     const IDENTITY_NOT_FOUND = -2;
+
     const INVALID_CREDENTIAL = -3;
+
     const AMBIGUOUS_IDENTITY = -4;
 
     /**

@@ -16,10 +16,16 @@ namespace Xframe\Registry;
 final class DatabaseRegistry extends AbstractRegistry
 {
     const USERNAME = 'username';
+
     const PASSWORD = 'password';
+
     const HOST = 'host';
+
     const PORT = 3306;
+
     const PREFIX = 'x';
+
     const NAME = 'name';
+
     const ENGINE = 'mysql';
 }
